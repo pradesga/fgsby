@@ -21,7 +21,7 @@
 
 	<div class="container">
 		<div class="page-header">
-			<h1 id="">Timeline</h1>
+			<h1 id="">Timeline Registrations</h1>
 		</div>
 		<div id="timeline">
 			<div class="row timeline-movement timeline-movement-top">
@@ -44,41 +44,45 @@
 						<div class="col-sm-11">
 							<div class="timeline-panel credits">
 								<ul class="timeline-panel-ul">
-									<li><span class="importo">Panitia</span></li>
-									<li><span class="causale">Pendaftaran Event FemaleGeek dibuka. </span> </li>
-									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 27/06/2016</small></p> </li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-6  timeline-item">
-					<div class="row">
-						<div class="col-sm-offset-1 col-sm-11">
-							<div class="timeline-panel debits">
-								<ul class="timeline-panel-ul">
-									<li><span class="importo">Register</span></li>
-									<li><span class="causale">Bambang Wahyudi. </span> </li>
-									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 27/06/2016</small></p> </li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<br/>
-					<div class="row">
-						<div class="col-sm-offset-1 col-sm-11">
-							<div class="timeline-panel debits">
-								<ul class="timeline-panel-ul">
-									<li><span class="importo">Register</span></li>
-									<li><span class="causale">Bambang Wahyudi. </span> </li>
-									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 27/06/2016</small></p> </li>
+									<li><span class="importo">PANITIA</span></li>
+									<li><span class="causale">Registrasi dibuka. </span> </li>
+									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 27-06-2016 00:00:00</small></p> </li>
 								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<?php foreach ($datarr as $datrow) { ?>
+			<div class="row timeline-movement">
+				<div class="timeline-badge">
+					<span class="timeline-balloon-date-day"><?php echo tglku($datrow['tgl'], 'd'); ?></span>
+					<span class="timeline-balloon-date-month"><?php echo strtoupper(tglku($datrow['tgl'], 'M')); ?></span>
+				</div>
+
+				<div class="col-sm-offset-6 col-sm-6  timeline-item">
+					<div class="row">
+						<div class="col-sm-offset-1 col-sm-11">
+							<div class="timeline-panel debits">
+								<ul class="timeline-panel-ul">
+									<li><span class="importo">REGISTER</span></li>
+									<li><span class="causale"><b><?php echo strtoupper($datrow['nama']); ?>. </b></span> </li>
+									<li><span class="causale"><?php echo strtoupper($datrow['kota']); ?></span></li>
+									<li>
+										<span class="causale">
+											<h4><?php echo $datrow['kode']; ?></h4>
+											<img alt='testing' src="barcode.php?text=<?php echo $datrow['kode']; ?>" width="150" height="50" />
+										</span>
+									</li>
+									<li><span class="causale"><?php echo ($datrow['konfirm'] == 0) ? '<font color="red"><b>Waiting... </b></font>' : '<font color="blue"><b>CONFIRMED </b></font>'; ?></span></li>
+									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> <?php echo tglku($datrow['tgl'], 'd-m-Y H:i:s'); ?></small></p> </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<?php } ?>
 			<!--due -->
 		</div>
 	</div>

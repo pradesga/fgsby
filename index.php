@@ -24,35 +24,19 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
                 <div class="item active">
-                    <img src="http://placehold.it/1200x400/16a085/ffffff&text=About Us">
-                    <div class="carousel-caption">
-                        <h3>FemaleGeek PHPIndonesia</h3>
-                        <p>She loves IT. She developed IT FemaleGeek adalah komunitas yang terdiri dari perempuan yang berkecimpung dalam dunia IT bersinergi dengan PHP Indonesia sebagai salah satu group developer IT besar di Indonesia. <a class="btn btn-primary" href="timeline.php">Timeline</a></p>
-                    </div>
+                    <a href="/timeline.php"><img src="img/1.jpg"></a>
                 </div>
                 <!-- End Item -->
                 <div class="item">
-                    <img src="http://placehold.it/1200x400/e67e22/ffffff&text=Projects">
-                    <div class="carousel-caption">
-                        <h3></h3>
-                        <p>Kami dari Female Geek Surabaya sedang mencoba untuk berpartisipasi kepada Masyarakat. Ada beberapa Project yg sedang kami garap untuk kemajuan perkembangan IT di Indonesia.</p>
-                    </div>
+                    <img src="img/2.jpg" alt="Kami dari Female Geek Surabaya sedang mencoba untuk berpartisipasi kepada Masyarakat. Ada beberapa Project yg sedang kami garap untuk kemajuan perkembangan IT di Indonesia.">
                 </div>
                 <!-- End Item -->
                 <div class="item">
-                    <img src="http://placehold.it/1200x400/2980b9/ffffff&text=Portfolio">
-                    <div class="carousel-caption">
-                        <h3></h3>
-                        <p>Portofolio kami bisa dilihat di <a href="https://www.facebook.com/femalegeek">Disini</a>.</p>
-                    </div>
+                    <a href="https://www.facebook.com/femalegeek" target="_blank"><img src="img/3.jpg" alt="Portofolio kami bisa dilihat di https://www.facebook.com/femalegeek"></a>
                 </div>
                 <!-- End Item -->
                 <div class="item">
-                    <img src="http://placehold.it/1200x400/8e44ad/ffffff&text=Event">
-                    <div class="carousel-caption">
-                        <h3></h3>
-                        <p>Event FemaleGeek pertama kami. <a href="registrasi.php" class="btn btn-primary">Registrasi disini</a>.</p>
-                    </div>
+                    <a href="/registrasi.php"><img src="img/4.jpg" alt="Mari bergabung pada event FemaleGeek Surabaya, Registrasi sekarang!"></a>
                 </div>
                 <!-- End Item -->
             </div>
