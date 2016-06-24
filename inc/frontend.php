@@ -29,19 +29,23 @@ switch (str_replace('/', '', $_SERVER['PHP_SELF'])) {
 			$kota = $_POST['kota'];
 
 			if(!array_search('', $_POST)){
-				if(emailregistrasi()){
-					$msg  = '<div class="alert alert-success" role="alert">';
-					$msg .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-					$msg .= 'Terima kasih! Registrasi Anda berhasil, silahkan cek email konfirmasi dan silahkan lakukan pembayaran secepatnya.';
-					$msg .= '</div>';
-
-					$nama = '';
-					$alamat = '';
-					$nohp = '';
-					$email = '';
-					$kota = '';
+				if(cekemailexist($email)){
+					$msg = '<div class="alert alert-warning" role="alert">Error! Data tidak tersimpan. Alamat email Anda telah terdaftar, silahkan coba menggunakan alamat email lain.</div>';
 				} else {
-					$msg = '<div class="alert alert-danger" role="alert">Mohon Maaf, data registrasi Anda tidak tersimpan. Ada masalah dengan system kami.</div>';
+					if(emailregistrasi()){
+						$msg  = '<div class="alert alert-success" role="alert">';
+						$msg .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+						$msg .= 'Terima kasih! Registrasi Anda berhasil, silahkan cek email konfirmasi dan silahkan lakukan pembayaran secepatnya.';
+						$msg .= '</div>';
+
+						$nama = '';
+						$alamat = '';
+						$nohp = '';
+						$email = '';
+						$kota = '';
+					} else {
+						$msg = '<div class="alert alert-danger" role="alert">Mohon Maaf, data registrasi Anda tidak tersimpan. Ada masalah dengan system kami.</div>';
+					}
 				}
 			} else {
 				$msg = '<div class="alert alert-warning" role="alert">Error! Data tidak tersimpan. Silahkan lengkapi data registrasi anda.</div>';
@@ -54,15 +58,19 @@ switch (str_replace('/', '', $_SERVER['PHP_SELF'])) {
 
 	case 'timeline.php':
 		$datarr = array();
-		$gs = "SELECT DAY(tgl) AS tanggal, MONTH(tgl) AS bulan, nama, tgl, kota, kode, konfirm FROM register ORDER BY id DESC";
+		$datearr = array();
+		$gs = "SELECT id, nama, tgl, kota, kode, konfirm FROM register ORDER BY id DESC";
 		$fs = mysql_query($gs);
+		
 		while($row = mysql_fetch_array($fs)){
 			$rowarr = array();
+			$datearr[] = tglku($row['tgl'], 'd-m-Y');
 			foreach ($row as $rkey => $rvalue) {
 				$rowarr[$rkey] = $rvalue;
 			}
 			$datarr[] = $rowarr;
 		}
+		$datearr = array_unique($datearr);
 		break;
 
 	case 'index.php':
@@ -83,12 +91,26 @@ function emailregistrasi(){
 	$bemail = $_POST['email'];
 	$bkota = $_POST['kota'];
 
-	$gs = "INSERT INTO register SET nama='$bnama' , alamat='$balamat' , tgl='$tgl' , hp='$bnohp', email='$bemail', kota='$bkota', kode='$cid', konfirm=0";
+	$gs = "INSERT INTO register SET nama='$bnama',alamat='$balamat',tgl='$tgl',hp='$bnohp',email='$bemail',kota='$bkota',kode='$cid',konfirm=0";
 	$str = mysql_query($gs) or die ("Gagal query".mysql_error());
 
 	if($str == TRUE){
 		$emailadm = 'eventorg@des.org';
-		$msgregis = 'Pendaftaran anda berhasil';
+		
+		$msgregis  = 'Pendaftaran anda berhasil, dengan data sebagai berikut' . "\n";
+		$msgregis .= 'Nama: ' . $bnama . "\n";
+		$msgregis .= 'Email: ' . $bemail . "\n";
+		$msgregis .= 'Alamat: ' . $balamat . "\n";
+		$msgregis .= 'Kota: ' . $bkota . "\n";
+		$msgregis .= 'Nomor Handphone: ' . $bnohp . "\n";
+		$msgregis .= '===================================' . "\n";
+		$msgregis .= 'Silahkan melakukan pembayaran melalui nomor rekening sebagai berikut' . "\n";
+		$msgregis .= '===================================' . "\n";
+		$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau whatapps sebagai berikut' . "\n";
+		$msgregis .= 'Atau alamat email sebagai berikut' . "\n";
+		$msgregis .= '===================================' . "\n";
+		$msgregis .= 'Keterangan lebih lanjut hubungi' . "\n";
+
 		if(mail($emailadm, 'Konfirmasi Registrasi', $msgregis)){
 			return true;
 		} else
@@ -115,17 +137,27 @@ function generatekode(){
 }
 
 function cekexistskode($kode){
-	$cid = '';
-	$sqlkod = "SELECT kode FROM register WHERE kode = $kode";
-	$kodindb = mysql_query($sqlkod);
-	$row = mysql_fetch_array($kodindb);
+	$sql = "SELECT kode FROM register WHERE kode = $kode";
+	$qry = mysql_query($sql);
 
-	if($row['kode'] == $kode){
+	$cid = '';
+	if($qry == FALSE){
+		$cid = $kode;
+	} else {
 		$cid = generatekode();
 		cekexistskode($cid);
-	} else {
-		$cid = $kode;
 	}
 
 	return $cid;
+}
+
+function cekemailexist($email){
+	$sql = "SELECT email FROM register WHERE email = $email";
+	$qry = mysql_query($sql);
+
+	if($qry == FALSE){
+		return;
+	} else {
+		return true;
+	}
 }

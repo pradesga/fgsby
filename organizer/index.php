@@ -1,0 +1,1 @@
+<?php require("../inc/frontend.php"); ?>

@@ -53,15 +53,17 @@
 					</div>
 				</div>
 			</div>
-			<?php foreach ($datarr as $datrow) { ?>
+			<?php foreach ($datearr as $dateday) { ?>
 			<div class="row timeline-movement">
 				<div class="timeline-badge">
-					<span class="timeline-balloon-date-day"><?php echo tglku($datrow['tgl'], 'd'); ?></span>
-					<span class="timeline-balloon-date-month"><?php echo strtoupper(tglku($datrow['tgl'], 'M')); ?></span>
+					<span class="timeline-balloon-date-day"><?php echo tglku($dateday, 'd'); ?></span>
+					<span class="timeline-balloon-date-month"><?php echo strtoupper(tglku($dateday, 'M')); ?></span>
 				</div>
 
 				<div class="col-sm-offset-6 col-sm-6  timeline-item">
-					<div class="row">
+					<?php foreach ($datarr as $datrow) { ?>
+					<?php if( tglku($dateday, 'd-m-Y') == tglku($datrow['tgl'], 'd-m-Y') ){ ?>
+					<div class="row timeline-day">
 						<div class="col-sm-offset-1 col-sm-11">
 							<div class="timeline-panel debits">
 								<ul class="timeline-panel-ul">
@@ -80,6 +82,8 @@
 							</div>
 						</div>
 					</div>
+					<?php } ?>
+					<?php } ?>
 				</div>
 			</div>
 			<?php } ?>
