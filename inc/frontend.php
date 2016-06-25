@@ -80,7 +80,7 @@ function emailregistrasi(){
 	$bemail = $_POST['email'];
 	$bkota = $_POST['kota'];
 
-	$gs = "INSERT INTO register SET nama='$bnama',alamat='$balamat',tgl='$tgl',hp='$bnohp',email='$bemail',kota='$bkota',kode='$cid',konfirm=0";
+	$gs = "INSERT INTO register SET nama='$bnama',alamat='$balamat',tgl='$tgl',hp='$bnohp',email='$bemail',kota='$bkota',kode='$cid',konfirm='0'";
 	$str = mysql_query($gs) or die ("Gagal query".mysql_error());
 
 	if($str == TRUE){
@@ -100,7 +100,7 @@ function emailregistrasi(){
 		$msgregis .= '===================================' . "\n";
 		$msgregis .= 'Keterangan lebih lanjut hubungi' . "\n";
 
-		if(mail($emailadm, 'Konfirmasi Registrasi', $msgregis)){
+		if(mail($bemail, 'Konfirmasi Registrasi', $msgregis)){
 			return true;
 		} else
 			return;
@@ -128,9 +128,10 @@ function generatekode(){
 function cekexistskode($kode){
 	$sql = "SELECT kode FROM register WHERE kode = '$kode'";
 	$qry = mysql_query($sql);
+	$row = mysql_fetch_array($qry);
 
 	$cid = '';
-	if($qry == FALSE){
+	if($row == FALSE){
 		$cid = $kode;
 	} else {
 		$cid = generatekode();
@@ -143,8 +144,9 @@ function cekexistskode($kode){
 function cekemailexist($email){
 	$sql = "SELECT email FROM register WHERE email = '$email'";
 	$qry = mysql_query($sql);
+	$row = mysql_fetch_array($qry);
 
-	if($qry == FALSE){
+	if($row == FALSE){
 		return;
 	} else {
 		return true;

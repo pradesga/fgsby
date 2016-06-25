@@ -22,25 +22,25 @@ function checklogin(){
 
 		$sql = "SELECT id, username, password, email FROM userlogin WHERE username = '$username'";
 		$qry = mysql_query($sql);
+		$rows = mysql_fetch_array($qry);
 
-		if($qry == FALSE){
-			$msg = msgbox('<strong>Error!</strong> pastikan anda adalah administrator!');
+		if($rows == FALSE){
+			$msg = msgbox('<strong>Error!</strong> pastikan anda adalah administrator!', 'danger');
 		} else {
-			$rows = mysql_fetch_array($qry);
 			if(password_verify($pwdstr, $rows['password'])){
 				$_SESSION['islogin'] = true;
 				$_SESSION['uloginid'] = $rows['id'];
 				header('Location: /organizer/');
 			} else {
-				$msg = msgbox('<strong>Error!</strong> password yang anda masukan salah!');
+				$msg = msgbox('<strong>Error!</strong> password yang anda masukan salah!', 'danger');
 			}
 		}
 	}
 	return $msg;
 }
 
-function msgbox($msgstr){
-	$msg  = '<div class="alert alert-success" role="alert">';
+function msgbox($msgstr, $alert = 'default'){
+	$msg  = '<div class="alert alert-'.$alert.'" role="alert">';
 	$msg .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
 	$msg .= $msgstr;
 	$msg .= '</div>';
