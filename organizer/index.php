@@ -1,1 +1,1 @@
-<?php require("../inc/frontend.php"); ?>
+<?php require("../inc/administration.php"); if(islogin()) header('Location: dashboard.php'); else header('Location: login.php'); ?>

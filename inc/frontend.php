@@ -1,16 +1,5 @@
 <?php
-date_default_timezone_set('Asia/Jakarta');
-session_name('FGSBYSID');
-session_start();
-
-$dbHost = "localhost";
-// $dbUser = "fgsby_root";
-// $dbPass = "200677";
-$dbUser = "root";
-$dbPass = "";
-$dbName = "fgsby_fg";
-mysql_connect($dbHost, $dbUser, $dbPass);
-mysql_select_db($dbName) or die(mysql_error());
+require("coresystem.php");
 
 switch (str_replace('/', '', $_SERVER['PHP_SELF'])) {
 	case 'registrasi.php':
@@ -137,7 +126,7 @@ function generatekode(){
 }
 
 function cekexistskode($kode){
-	$sql = "SELECT kode FROM register WHERE kode = $kode";
+	$sql = "SELECT kode FROM register WHERE kode = '$kode'";
 	$qry = mysql_query($sql);
 
 	$cid = '';
@@ -152,7 +141,7 @@ function cekexistskode($kode){
 }
 
 function cekemailexist($email){
-	$sql = "SELECT email FROM register WHERE email = $email";
+	$sql = "SELECT email FROM register WHERE email = '$email'";
 	$qry = mysql_query($sql);
 
 	if($qry == FALSE){
