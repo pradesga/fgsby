@@ -1,84 +1,300 @@
-<?php require("inc/frontend.php"); ?><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Female Geek Surabaya - PHP Indonesia">
+  <title>Female Geek Surabaya - PHP Indonesia</title>
 
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+  <!-- stylesheet -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
 
-    <title>FemaleGeek Surabaya</title>
-    
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
-    <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
-    <center>
-        <a class="logofg" href="/"><img src="img/fg.png"></a>
-    </center>
+
+  <!-- navigation -->
+  <nav class="navbar navbar-fixed-top" role="navigation">
     <div class="container">
-        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-                <div class="item active">
-                    <a href="/timeline.php"><img src="img/1.jpg"></a>
-                </div>
-                <!-- End Item -->
-                <div class="item">
-                    <img src="img/2.jpg" alt="Kami dari Female Geek Surabaya sedang mencoba untuk berpartisipasi kepada Masyarakat. Ada beberapa Project yg sedang kami garap untuk kemajuan perkembangan IT di Indonesia.">
-                </div>
-                <!-- End Item -->
-                <div class="item">
-                    <a href="https://www.facebook.com/femalegeek" target="_blank"><img src="img/3.jpg" alt="Portofolio kami bisa dilihat di https://www.facebook.com/femalegeek"></a>
-                </div>
-                <!-- End Item -->
-                <div class="item">
-                    <a href="/registrasi.php"><img src="img/4.jpg" alt="Mari bergabung pada event FemaleGeek Surabaya, Registrasi sekarang!"></a>
-                </div>
-                <!-- End Item -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href=""><img src="assets/img/brand_white.png" alt=""></a>
+      </div>
+    </div>
+  </nav>
+
+  <header id="my-carousel" class="carousel slide">
+    <!-- indicators -->
+    <ol class="carousel-indicators visible-xs">
+      <li data-target="#my-carousel" data-slide-to="0" class="active"></li>
+      <li data-target="#my-carousel" data-slide-to="1"></li>
+      <li data-target="#my-carousel" data-slide-to="2"></li>
+      <li data-target="#my-carousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- carousel -->
+    <div class="carousel-inner">
+      <div class="item active">
+        <div class="fill" style="background-image: url('assets/img/one.jpg');">
+          <div class="hero">
+            <div class="container">
+              <h2>She love IT. She developes IT</h2>
+              <p>Komunitas yang terdiri dari perempuan yang berkecimpung dalam dunia IT bersinergi dengan PHP Indonesia sebagai salah satu group developer IT terbesar di Indonesia</p>
+              <a class="btn btn-transparent btn-lg" href="https://femalegeek.phpindonesia.or.id/#team" role="button">Read More</a>
             </div>
-            <!-- End Carousel Inner -->
-            <ul class="nav nav-pills nav-justified">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"><a href="#">About<small>Female Geek</small></a></li>
-                <li data-target="#myCarousel" data-slide-to="1"><a href="#">Projects<small>Project Us</small></a></li>
-                <li data-target="#myCarousel" data-slide-to="2"><a href="#">Portfolio<small>My Portofolio</small></a></li>
-                <li data-target="#myCarousel" data-slide-to="3"><a href="#">Event<small>Event FG</small></a></li>
-            </ul>
+          </div><!-- ./hero -->
         </div>
-        <!-- End Carousel -->
+      </div>
+      <div class="item">
+        <div class="fill" style="background-image: url('assets/img/two.jpg');">
+          <div class="hero">
+            <div class="container">
+              <h2>Sister to Sisters</h2>
+              <p>Suatu program mentoring, dimana seorang mentor yang menjadi role model dan teman bicara / diskusi yang berhubungan dengan profesinya sebagai seorang IT engineer/developer/web designer</p>
+              <a class="btn btn-transparent btn-lg" href="https://femalegeek.phpindonesia.or.id/#services" role="button">Read More</a>
+            </div>
+          </div><!-- ./hero -->
+        </div>
+      </div>
+      <div class="item">
+        <div class="fill" style="background-image: url('assets/img/three.jpg');">
+          <div class="hero">
+            <div class="container">
+              <h2>E-Magazine</h2>
+              <p>Majalah elektronik resmi dari PHP Indonesia yang berisi informasi seputar meetup / seminar maupun workshop yang diselenggarakan oleh PHP Indonesia</p>
+              <a class="btn btn-transparent btn-lg" href="http://femalegeek.phpindonesia.or.id/download/27/" role="button">Download</a>
+            </div>
+          </div><!-- ./hero -->
+        </div>
+      </div>
+      <div class="item">
+        <div class="fill" style="background-image: url('assets/img/four.jpg');">
+          <div class="hero">
+            <div class="container">
+              <h2>Events</h2>
+              <p>How to Become a Developer - Team Female Geek Surabaya at Dilo Surabaya</p>
+              <button class="btn btn-transparent btn-lg scroll-register" type="button">Register Now</button>
+            </div>
+          </div><!-- ./hero -->
+        </div>
+      </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <!-- controls -->
+    <a class="left carousel-control hidden-xs" href="#my-carousel" data-slide="prev">
+      <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control hidden-xs" href="#my-carousel" data-slide="next">
+      <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+    <a class="down carousel-control hidden-xs floating-arrow scroll-about" href="#">
+      <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+    </a>
+  </header>
 
-<script type="text/javascript">
-$(document).ready( function() {
-    $('#myCarousel').carousel({
-        interval: 4000
+  <section id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1>Hi Youths in Surabaya! Here's a good news!</h1>
+          <p class="slogan">For you who have a passion in IT, we are from Female Geek Surabaya PHP Indonesia proudly present this event for you "How to Become a Developer".</p>
+          <button class="btn btn-success btn-lg scroll-register" type="button">Register Now</button>
+        </div>
+      </div><!-- /.row -->
+    </div>
+  </section>
+
+  <section id="speaker">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1>Speakers of the Event</h1>
+          <p class="slogan">We have speakers who are experts in theirs fields.</p>
+          <div class="row center-block">
+            <div class="col-sm-4 text-center">
+              <img class="img-circle img-thumbnail" src="assets/img/anne.jpg">
+              <h3>Anne Regina</h3>
+              <p><em>Female Geek</em></p>
+            </div>
+            <div class="col-sm-4 text-center">
+              <img class="img-circle img-thumbnail" src="assets/img/peter.jpg">
+              <h3>Peter J. Kambey</h3>
+              <p><em>PHP Indonesia</em></p>
+            </div>
+            <div class="col-sm-4 text-center">
+              <img class="img-circle img-thumbnail" src="assets/img/ibnu.jpg">
+              <h3>Ibnu Sina</h3>
+              <p><em>Google Expert</em></p>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.row -->
+    </div>
+  </section>
+
+  <section id="countdown">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 text-center">
+          <h1>Countdown to Event</h1>
+          <p class="slogan">Event will be held on 28 August 2016.</p>
+          <div class="row countdown">
+            <div class="countdown-item col-sm-3 col-xs-6">
+              <div id="countdown-days" class="countdown-number"></div>
+              <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item col-sm-3 col-xs-6">
+              <div id="countdown-hours" class="countdown-number"></div>
+              <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item col-sm-3 col-xs-6">
+              <div id="countdown-minutes" class="countdown-number"></div>
+              <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-item col-sm-3 col-xs-6">
+              <div id="countdown-seconds" class="countdown-number"></div>
+              <div class="countdown-label">Seconds</div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.row -->
+    </div>
+  </section>
+
+  <section id="register">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 center-block text-center">
+          <h1>Event Registration</h1>
+          <p class="slogan">Please fill all form with valid data.</p>
+          <form class="contact-form" role="form">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                  <input class="form-control" type="text" placeholder="Full name" required>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" type="text" placeholder="Address" required>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" type="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" type="text" placeholder="Phone" required>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" type="text" placeholder="City" required>
+                </div>
+                <button class="btn btn-success btn-lg pull-right" type="submit">Register</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div><!-- /.row -->
+    </div>
+  </section>
+
+  <section id="maps">
+    <div id="google-map"></div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 text-center">
+          <h3>Event Location</h3>
+          <p>Dilo Surabaya. Telkom Indonesia Divre V</p>
+          <p>Jalan Ketintang No 135 Surabaya. Jawa Timur</p>
+        </div>
+        <div class="col-sm-6 text-center">
+          <h3>Call Us</h3>
+          <p>Illa (0858-1018-7939)</p>
+          <p>Kiki (0812-8984-6568)</p>
+        </div>
+      </div><!-- /.row -->
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="text-center">Copyright 2016 - Team Female Geek Surabaya</p>
+    </div>
+  </footer>
+
+  <a href="#" class="scrolling scroll-up"><span class="glyphicon glyphicon-menu-up"></span></a>
+
+  <!-- javascript -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.countdown.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnn0J-CaEdKaaMKY5RUxPv9HZ_orpb0eg"></script>
+
+  <script type="text/javascript">
+    $('.carousel').carousel({
+      interval: 3000
     });
 
-    var clickEvent = false;
-    $('#myCarousel').on('click', '.nav a', function() {
-        clickEvent = true;
-        $('.nav li').removeClass('active');
-        $(this).parent().addClass('active');        
-    }).on('slid.bs.carousel', function(e) {
-        if(!clickEvent) {
-            var count = $('.nav').children().length -1;
-            var current = $('.nav li.active');
-            current.removeClass('active').next().addClass('active');
-            var id = parseInt(current.data('slide-to'));
-            if(count == id) {
-                $('.nav li').first().addClass('active');
-            }
-        }
-        clickEvent = false;
+    $('.countdown').countdown('2016/08/28').on('update.countdown', function (event) {
+      $('#countdown-days').text(event.offset.totalDays);
+      $('#countdown-hours').text(('0' + event.offset.hours).slice(-2));
+      $('#countdown-minutes').text(('0' + event.offset.minutes).slice(-2));
+      $('#countdown-seconds').text(('0' + event.offset.seconds).slice(-2));
     });
-});
-</script>
+
+    $(window).on('scroll', function() {
+      if($(window).scrollTop() >= 15) {
+        $('.navbar').addClass('navbar-inverse');
+      } else {
+        $('.navbar').removeClass('navbar-inverse');
+      }
+
+      if($(window).scrollTop() >= 100) {
+        $('.scroll-up').fadeIn();
+      } else {
+        $('.scroll-up').fadeOut();
+      }
+    }).scroll();
+
+    $('.scroll-about').click(function(){
+      $("html, body").animate({ scrollTop: ($('#about').offset().top - 68) }, 1000);
+      return false;
+    });
+
+    $('.scroll-register').click(function(){
+      $("html, body").animate({ scrollTop: ($('#register').offset().top - 68) }, 1000);
+      return false;
+    });
+
+    $('.scroll-up').click(function(){
+      $("html, body").animate({ scrollTop: 0 }, 1000);
+      return false;
+    });
+  </script>
+
+  <script type="text/javascript">
+    function init_map() {
+      var myOptions = {
+        zoom: 13,
+        center: new google.maps.LatLng(-7.310746, 112.7287106),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      map = new google.maps.Map(document.getElementById('google-map'), myOptions);
+      marker = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(-7.310746, 112.7287106)
+      })
+      infowindow = new google.maps.InfoWindow({
+        content: '<strong>Dilo Surabaya</strong><br>Telkom Indonesia Divre V<br>'
+      });
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map, marker);
+      });
+      infowindow.open(map, marker);
+    }
+    google.maps.event.addDomListener(window, 'load', init_map);
+  </script>
 
 </body>
 </html>

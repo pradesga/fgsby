@@ -1,0 +1,321 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  color: #73879c;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #34495e;
+}
+
+.navbar {
+  min-height: 0;
+  border: 0;
+  -webkit-transition: all 0.4s ease-in-out 0s;
+     -moz-transition: all 0.4s ease-in-out 0s;
+       -o-transition: all 0.4s ease-in-out 0s;
+          transition: all 0.4s ease-in-out 0s;
+}
+.navbar-brand {
+  height: 104px;
+}
+.navbar-brand > img {
+  display: inline;
+  height: 74px;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+     -moz-transition: all 0.3s ease-in-out 0s;
+       -o-transition: all 0.3s ease-in-out 0s;
+          transition: all 0.3s ease-in-out 0s;
+}
+.navbar-inverse {
+  background-color: #1abb9C;
+  border: 0;
+}
+.navbar-inverse .navbar-brand {
+  height: 68px;
+}
+.navbar-inverse .navbar-brand > img  {
+  height: 38px;
+}
+@media (max-width: 767px) {
+  .navbar-brand {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.carousel,
+.item,
+.active {
+  height: 100%;
+}
+.carousel-inner {
+  height: 100%;
+}
+.carousel-control.left,
+.carousel-control.right,
+.carousel-control.down {
+  background-image: none !important;
+  -webkit-filter: none !important;
+          filter: none !important;
+}
+.carousel-control {
+  background-image: none;
+  width: 54px;
+  height: 54px;
+  top: 50%;
+  margin-top: -27px;
+  line-height: 54px;
+  border: 2px solid #fff;
+  opacity: 1;
+  text-shadow: none;
+  border-radius: 3px;
+  z-index: 5;
+  -webkit-transition: all 0.2s ease-in-out 0s;
+     -moz-transition: all 0.2s ease-in-out 0s;
+       -o-transition: all 0.2s ease-in-out 0s;
+          transition: all 0.2s ease-in-out 0s;
+}
+.carousel-control:hover {
+  background: #fff;
+  color: #34495e;
+}
+.carousel-control.left {
+  left: 20px;
+}
+.carousel-control.right {
+  right: 20px;
+}
+.carousel-control.down {
+  top: auto;
+  left: 50%;
+  bottom: 20px;
+  margin-left: -27px;
+  border-radius: 50%;
+}
+.carousel-indicators {
+  bottom: 10px !important;
+  margin-bottom: 0;
+}
+.carousel-indicators li,
+.carousel-indicators .active {
+  height: 15px;
+  width: 15px;
+  border: 2px solid #fff;
+  margin: 3px;
+}
+.carousel h2 {
+  color: #fff;
+}
+.floating-arrow {
+  -webkit-animation: floating-arrow 1s infinite linear 0s;
+     -moz-animation: floating-arrow 1s infinite linear 0s;
+       -o-animation: floating-arrow 1s infinite linear 0s;
+          animation: floating-arrow 1s infinite linear 0s;
+  -webkit-animation-direction: alternate;
+     -moz-animation-direction: alternate;
+       -o-animation-direction: alternate;
+          animation-direction: alternate;
+  -webkit-animation-fill-mode: forwards;
+     -moz-animation-fill-mode: forwards;
+       -o-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-transform: translateY(-25px);
+     -moz-transform: translateY(-25px);
+      -ms-transform: translateY(-25px);
+       -o-transform: translateY(-25px);
+          transform: translateY(-25px);
+}
+@-webkit-keyframes floating-arrow { 
+  to {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }    
+}
+@-moz-keyframes floating-arrow { 
+  to {
+    -moz-transform: translateY(0);
+         transform: translateY(0);
+  }    
+}
+@-o-keyframes floating-arrow { 
+  to {
+    -o-transform: translateY(0);
+       transform: translateY(0);
+  }    
+}
+@keyframes floating-arrow { 
+  to {
+    -webkit-transform: translateY(0);
+       -moz-transform: translateY(0);
+         -o-transform: translateY(0);
+            transform: translateY(0);
+  }    
+}
+
+.fill {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  -o-background-size: cover;
+     background-size: cover;
+}
+
+.hero {
+  display: table;
+  height: 100%;
+  margin: 0 auto;
+  color: #fff;
+}
+.hero .container {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.hero h2 {
+  font-size: 42px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.hero p {
+  margin-left: 60px;
+  margin-right: 60px;
+  font-size: 18px;
+  color: #fff;
+}
+.hero .btn {
+  margin-top: 15px;
+  border-radius: 3px;
+  color: #fff;
+  box-shadow: none;
+}
+.hero .btn:hover,
+.hero .btn:active {
+  box-shadow: none;
+}
+@media (max-width: 767px) {
+  .hero h2 {
+    font-size: 32px;
+  }
+  .hero p {
+    font-size: 14px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .hero .btn {
+    margin-top: 0;
+  }
+}
+
+.btn {
+  background-color: #1abb9C;
+  padding: 11px 20px 13px;
+  border: medium none;
+  border-radius: 3px;
+  box-shadow: 0px -2px 0px rgba(0, 0, 0, 0.15) inset;
+}
+.btn:hover, .btn:focus, .btn:active, .btn.active {
+  background: none repeat scroll 0% 0% #17A78B;
+  color: #fff;
+  transition: all 200ms ease-out 0s;
+  box-shadow: 0px -2px 0px rgba(0, 0, 0, 0.15) inset;
+}
+.btn-transparent {
+  border: 2px solid #fff;
+  background-color: transparent;
+  border-radius: 0;
+}
+.btn-transparent:hover {
+  background: #fff;
+  color: #34495e;
+}
+
+section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+p.slogan {
+  margin-bottom: 50px;
+}
+
+#about,
+#countdown {
+  background-color: #f2f5f7;
+}
+
+#speaker h3 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+#speaker img {
+  width: 180px;
+}
+#speaker .img-thumbnail {
+  border-width: 2px;
+}
+#speaker .img-thumbnail:hover,
+#speaker .img-thumbnail:focus {
+  border-color: #506A85;
+}
+
+#countdown .countdown-number {
+  font-size: 82px;
+  line-height: 1;
+  font-weight: 200;
+}
+#countdown .countdown-label {
+  margin-top: 10px;
+}
+
+#register .form-control {
+  height: 43px;
+  padding: 10px 15px;
+  font-size: 15px;
+  line-height: 1.42857;
+  border-width: 2px;
+}
+#register .form-control:focus {
+  border-color: #506A85;
+  box-shadow: none;
+}
+
+#maps {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#maps #google-map {
+  width: 100%;
+  height: 400px;
+}
+
+footer {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: #444;
+  color: #fff;
+}
+footer p {
+  margin: 0;
+}
+
+.scrolling {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  text-align: center;
+  z-index: 9999;
+  opacity: 0.5;
+  color: #fff;
+  background-color: #506A85;
+  border-radius: 3px;
+  display: none;
+}
+.scrolling:hover {
+  color: #fff;
+  opacity:1;
+}
