@@ -169,23 +169,23 @@
         <div class="col-md-12 center-block text-center">
           <h1>Event Registration</h1>
           <p class="slogan">Please fill all form with valid data.</p>
-          <form class="contact-form" role="form">
+          <form class="contact-form" action="registrasi.php" method="post" role="form">
             <div class="row">
               <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
-                  <input class="form-control" type="text" placeholder="Full name" required>
+                  <input type="text" name="nama" class="form-control" placeholder="Full name" required>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="text" placeholder="Address" required>
+                  <input type="text" name="alamat" class="form-control" placeholder="Address" required>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="email" placeholder="Email" required>
+                  <input type="email" name="nohp" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="text" placeholder="Phone" required>
+                  <input type="text" name="email" class="form-control" placeholder="Phone" required>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="text" placeholder="City" required>
+                  <input type="text" name="kota" class="form-control" placeholder="City" required>
                 </div>
                 <button class="btn btn-success btn-lg pull-right" type="submit">Register</button>
               </div>
@@ -236,7 +236,7 @@
       interval: 3000
     });
 
-    $('.countdown').countdown('2016/08/28').on('update.countdown', function (event) {
+    $('.countdown').countdown('2016/08/28 09:00:00').on('update.countdown', function (event) {
       $('#countdown-days').text(event.offset.totalDays);
       $('#countdown-hours').text(('0' + event.offset.hours).slice(-2));
       $('#countdown-minutes').text(('0' + event.offset.minutes).slice(-2));
