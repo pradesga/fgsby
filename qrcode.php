@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: image/png');
 if($_GET != NULL){
-	$data = $_GET['data'];
+	$data = base64_decode($_GET['data']);
 	if(isset($_GET['size'])){
 		echo get_image($data, $_GET['size']);
 	}elseif(isset($_GET['level'])){

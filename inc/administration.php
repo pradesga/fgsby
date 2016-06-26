@@ -30,7 +30,7 @@ function checklogin(){
 			if(password_verify($pwdstr, $rows['password'])){
 				$_SESSION['islogin'] = true;
 				$_SESSION['uloginid'] = $rows['id'];
-				header('Location: /organizer/');
+				$msg = '<script>window.location = "/organizer/login.php";</script>';
 			} else {
 				$msg = msgbox('<strong>Error!</strong> password yang anda masukan salah!', 'danger');
 			}
@@ -68,4 +68,79 @@ function getattendee(){
 		$datrow[] = $thisrow;
 	}
 	return $datrow;
+}
+
+function getuserlogin(){
+	$sql = "SELECT id, username, password, email FROM userlogin";
+	$qry = mysql_query($sql);
+	$rows = array();
+	while ($row = mysql_fetch_array($qry)) {
+		$thisrow = array();
+		foreach ($row as $k => $v) {
+			if(!is_int($k))
+				$thisrow[$k] = $v;
+		}
+		$rows[] = $thisrow;
+	}
+	return $rows;
+}
+
+function getdatatablejs($files, $id){
+	$jsstr  = '';
+	if($_SERVER['PHP_SELF'] == $files){
+		$jsstr  = '<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" type="text/javascript"></script>' . "\n";
+		$jsstr .= "\t" . '<script type="text/javascript">' . "\n";
+		$jsstr .= "\t\t" . '$(document).ready(function(){' . "\n";
+		$jsstr .= "\t\t\t" . '$("#'.$id.'").DataTable();' . "\n";
+		$jsstr .= "\t\t" . '});' . "\n";
+		$jsstr .= "\t" . '</script>' . "\n";
+	}
+	echo $jsstr;
+}
+
+function getscannerjs($files = '/organizer/checkin.php'){
+	$jsstr  = '';
+	if($_SERVER['PHP_SELF'] == $files){
+		$jsstr  = '<script src="../js/html5-qrcode.min.js" type="text/javascript"></script>' . "\n";
+		$jsstr .= "\t" . '<script type="text/javascript">' . "\n";
+		$jsstr .= "\t\t" . '$(document).ready(function(){' . "\n";
+		$jsstr .= "\t\t\t" . '$("#reader").html5_qrcode(function(data){' . "\n";
+		$jsstr .= "\t\t\t\t" . '$("#read").html(data);' . "\n";
+		$jsstr .= "\t\t\t" . '}, function(error){' . "\n";
+		$jsstr .= "\t\t\t\t" . '$("#read_error").html(error);' . "\n";
+		$jsstr .= "\t\t\t" . '}, function(videoError){' . "\n";
+		$jsstr .= "\t\t\t\t" . '$("#vid_error").html(videoError);' . "\n";
+		$jsstr .= "\t\t\t" . '});' . "\n";
+		$jsstr .= "\t\t" . '});' . "\n";
+		$jsstr .= "\t" . '</script>' . "\n";
+	}
+	echo $jsstr;
+}
+
+function delattendee(){
+	$msg = "";
+	if($_SERVER['PHP_SELF'] == '/organizer/attendee.php'){
+		if(isset($_GET['action'])){
+			$attid = $_GET['id'];
+			$sql = "DELETE FROM register WHERE id = '$attid'";
+			if(mysql_query($sql)){
+				$msg = msgbox('<strong>Berhasil!</strong> hapus peserta event berhasil.', 'warning');
+			}
+		}
+	}
+	echo $msg;
+}
+
+function updateattendee(){
+	$msg = "";
+	if($_SERVER['PHP_SELF'] == '/organizer/attendee.php'){
+		if(isset($_GET['action'])){
+			$attid = $_GET['id'];
+			$sql = "DELETE FROM register WHERE id = '$attid'";
+			if(mysql_query($sql)){
+				$msg = msgbox('<strong>Berhasil!</strong> hapus peserta event berhasil.', 'warning');
+			}
+		}
+	}
+	echo $msg;
 }

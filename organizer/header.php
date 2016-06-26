@@ -1,4 +1,4 @@
-<?php require("../inc/administration.php"); ?><!DOCTYPE html>
+<?php require("../inc/administration.php"); if(!islogin()) header('Location: login.php'); ?><!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -59,6 +59,7 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li<?php activemenu('/organizer/dashboard.php'); ?>><a href="/organizer">Dashboard</a></li>
+					<li<?php activemenu('/organizer/checkin.php'); ?>><a href="/organizer/checkin.php">Check In</a></li>
 					<li<?php activemenu('/organizer/attendee.php'); ?>><a href="/organizer/attendee.php">Attendee</a></li>
 					<li<?php activemenu('/organizer/setting.php'); ?>><a href="/organizer/setting.php">Settings</a></li>
 					<li<?php activemenu('/organizer/user.php'); ?>><a href="/organizer/user.php">Users</a></li>

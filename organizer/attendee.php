@@ -1,7 +1,10 @@
 <?php include('header.php'); ?>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Attendee Registration</h1>
+				<h1 class="page-header">Attendee Registration <a href="attendee-new.php" class="btn btn-small btn-info">new</a></h1>
+
+				<?php delattendee(); ?>
+				
 				<div class="table-responsive">
 					<table class="table table-striped" id="attendee-lists">
 						<thead>
@@ -24,7 +27,8 @@
 								<td><?php echo $attk['kota']; ?></td>
 								<td>
 									<a href="?action=delete&id=<?php echo $attk['id']; ?>" class="btn btn-small btn-danger">delete</a> 
-									<a href="?action=edit&id=<?php echo $attk['id']; ?>" class="btn btn-small btn-info">edit</a>
+									<a href="attendee-edit.php?id=<?php echo $attk['id']; ?>" class="btn btn-small btn-info">edit</a> 
+									<a href="attendee-view.php?id=<?php echo $attk['id']; ?>" class="btn btn-small btn-info">view</a>
 								</td>
 							</tr>
 							<?php } ?>

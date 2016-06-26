@@ -84,7 +84,17 @@ function emailregistrasi(){
 	$str = mysql_query($gs) or die ("Gagal query".mysql_error());
 
 	if($str == TRUE){
-		$emailadm = 'eventorg@des.org';
+		$emailfrom = 'FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>';
+		$emailto = $bnama . ' <'.$bemail.'>';
+		$subject = 'Konfirmasi Registrasi Event';
+
+		$headers   = array();
+		$headers[] = "MIME-Version: 1.0";
+		$headers[] = "Content-type: text/plain; charset=iso-8859-1";
+		$headers[] = "From: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
+		$headers[] = "Reply-To: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
+		$headers[] = "Subject: {$subject}";
+		$headers[] = "X-Mailer: PHP/".phpversion();
 		
 		$msgregis  = 'Pendaftaran anda berhasil, dengan data sebagai berikut' . "\n";
 		$msgregis .= 'Nama: ' . $bnama . "\n";
@@ -92,15 +102,20 @@ function emailregistrasi(){
 		$msgregis .= 'Alamat: ' . $balamat . "\n";
 		$msgregis .= 'Kota: ' . $bkota . "\n";
 		$msgregis .= 'Nomor Handphone: ' . $bnohp . "\n";
-		$msgregis .= '===================================' . "\n";
+		$msgregis .= 'Kode Registrasi: ' . $cid . "\n";
+		$msgregis .= '===================================' . "\n\n";
 		$msgregis .= 'Silahkan melakukan pembayaran melalui nomor rekening sebagai berikut' . "\n";
-		$msgregis .= '===================================' . "\n";
-		$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau whatapps sebagai berikut' . "\n";
+		$msgregis .= 'Biaya Registrasi : Rp 50.000 (Lima Puluh Ribu Rupiah)' . "\n";
+		$msgregis .= 'Nomor Rekening: BCA 325 1222 400 an. Kiki Indah Novitasari' . "\n\n";
+		$msgregis .= '===================================' . "\n\n";
+		$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau Line sebagai berikut' . "\n";
 		$msgregis .= 'Atau alamat email sebagai berikut' . "\n";
+		$msgregis .= 'Illa 085810187939 / line @illarhs' . "\n";
+		$msgregis .= 'Kiki 081289846568 / line @ivonesarii' . "\n\n";
 		$msgregis .= '===================================' . "\n";
-		$msgregis .= 'Keterangan lebih lanjut hubungi' . "\n";
+		$msgregis .= 'Panitia Event FemaleGeek Surabaya' . "\n";
 
-		if(mail($bemail, 'Konfirmasi Registrasi', $msgregis)){
+		if( mail($emailto, $subject, $msgregis, implode("\r\n", $headers) ) ){
 			return true;
 		} else
 			return;
@@ -131,7 +146,7 @@ function cekexistskode($kode){
 	$row = mysql_fetch_array($qry);
 
 	$cid = '';
-	if($row == FALSE){
+	if(!$row){
 		$cid = $kode;
 	} else {
 		$cid = generatekode();
@@ -146,7 +161,7 @@ function cekemailexist($email){
 	$qry = mysql_query($sql);
 	$row = mysql_fetch_array($qry);
 
-	if($row == FALSE){
+	if(!$row){
 		return;
 	} else {
 		return true;
