@@ -81,7 +81,7 @@ function emailregistrasi(){
 	$bkota = $_POST['kota'];
 
 	$gs = "INSERT INTO register SET nama='$bnama',alamat='$balamat',tgl='$tgl',hp='$bnohp',email='$bemail',kota='$bkota',kode='$cid',konfirm='0'";
-	$str = mysql_query($gs) or die ("Gagal query".mysql_error());
+	$str = mysql_query($gs) or die ("Gagal query " . mysql_error() );
 
 	if($str == TRUE){
 		$emailfrom = 'FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>';

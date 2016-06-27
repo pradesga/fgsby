@@ -14,6 +14,8 @@
 								<th>Email</th>
 								<th>Telepon</th>
 								<th>Kota</th>
+								<th>Kode</th>
+								<th>Status</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -25,8 +27,10 @@
 								<td><?php echo $attk['email']; ?></td>
 								<td><?php echo $attk['hp']; ?></td>
 								<td><?php echo $attk['kota']; ?></td>
+								<td><?php echo $attk['kode']; ?></td>
+								<td><?php echo statusattendee($attk['konfirm']); ?></td>
 								<td>
-									<a href="?action=delete&id=<?php echo $attk['id']; ?>" class="btn btn-small btn-danger">delete</a> 
+									<a href="?action=del&id=<?php echo $attk['id']; ?>" class="btn btn-small btn-danger">delete</a> 
 									<a href="attendee-edit.php?id=<?php echo $attk['id']; ?>" class="btn btn-small btn-info">edit</a> 
 									<a href="attendee-view.php?id=<?php echo $attk['id']; ?>" class="btn btn-small btn-info">view</a>
 								</td>

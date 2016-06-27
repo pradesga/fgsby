@@ -55,21 +55,6 @@ function activemenu($curr){
 	}
 }
 
-function getattendee(){
-	$str = "SELECT id, nama, email, hp, kota, kode, konfirm FROM register ORDER BY id ASC";
-	$qry = mysql_query($str);
-	$datrow = array();
-	while ($rows = mysql_fetch_array($qry)) {
-		$thisrow = array();
-		foreach ($rows as $k => $v) {
-			if(!is_int($k))
-				$thisrow[$k] = $v;
-		}
-		$datrow[] = $thisrow;
-	}
-	return $datrow;
-}
-
 function getuserlogin(){
 	$sql = "SELECT id, username, password, email FROM userlogin";
 	$qry = mysql_query($sql);
@@ -117,14 +102,47 @@ function getscannerjs($files = '/organizer/checkin.php'){
 	echo $jsstr;
 }
 
+function getattendee(){
+	$str = "SELECT id, nama, email, hp, kota, kode, konfirm FROM register ORDER BY id ASC";
+	$qry = mysql_query($str);
+	$datrow = array();
+	while ($rows = mysql_fetch_array($qry)) {
+		$thisrow = array();
+		foreach ($rows as $k => $v) {
+			if(!is_int($k))
+				$thisrow[$k] = $v;
+		}
+		$datrow[] = $thisrow;
+	}
+	return $datrow;
+}
+
+function getattendeebyid(){
+	$msg = array();
+	if(isset($_GET['id'])){
+		$attid = $_GET['id'];
+		$sql = "SELECT * FROM register WHERE id = '$attid'";
+		$qry = mysql_query($sql);
+		while ($row = mysql_fetch_array($qry)) {
+			foreach ($row as $k => $v) {
+				if(!is_int($k))
+					$msg[$k] = $v;
+			}
+		}
+	}
+	return $msg;
+}
+
 function delattendee(){
 	$msg = "";
 	if($_SERVER['PHP_SELF'] == '/organizer/attendee.php'){
 		if(isset($_GET['action'])){
-			$attid = $_GET['id'];
-			$sql = "DELETE FROM register WHERE id = '$attid'";
-			if(mysql_query($sql)){
-				$msg = msgbox('<strong>Berhasil!</strong> hapus peserta event berhasil.', 'warning');
+			if($_GET['action'] == 'del'){
+				$attid = $_GET['id'];
+				$sql = "DELETE FROM register WHERE id = '$attid'";
+				if(mysql_query($sql)){
+					$msg = msgbox('<strong>Berhasil!</strong> hapus peserta event berhasil.', 'warning');
+				}
 			}
 		}
 	}
@@ -135,12 +153,127 @@ function updateattendee(){
 	$msg = "";
 	if($_SERVER['PHP_SELF'] == '/organizer/attendee.php'){
 		if(isset($_GET['action'])){
-			$attid = $_GET['id'];
-			$sql = "DELETE FROM register WHERE id = '$attid'";
-			if(mysql_query($sql)){
-				$msg = msgbox('<strong>Berhasil!</strong> hapus peserta event berhasil.', 'warning');
+			if($_GET['action'] == 'update'){
+				$attid = $_GET['id'];
+				$sql = "UPDATE FROM register WHERE id = '$attid'";
+				if(mysql_query($sql)){
+					$msg = msgbox('<strong>Berhasil!</strong> hapus peserta event berhasil.', 'warning');
+				}
 			}
 		}
 	}
 	echo $msg;
+}
+
+function newattendee(){
+	$cid = generatekode();
+	$cid = cekexistskode($cid);
+	$tgl = date("Y-m-d H:i:s");
+
+	$newdata = array(
+		'nama' => $_POST['nama'],
+		'alamat' => $_POST['alamat'],
+		'hp' => $_POST['nohp'],
+		'email' => $_POST['email'],
+		'kota' => $_POST['kota'],
+		'kode' => $cid,
+		'tgl' => $tgl,
+		'konfirm' => 0
+	);
+
+	$redi = implode(', ', array_map(function ($v, $k) { return sprintf("%s='%s'", $k, $v); }, $newdata, array_keys($newdata)));
+	$sql = "INSERT INTO register SET $redi";
+	if( mysql_query($sql) ){
+		$emailfrom = 'FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>';
+		$emailto = $newdata['nama'] . ' <'.$newdata['email'].'>';
+		$subject = 'Konfirmasi Registrasi Event';
+
+		$headers   = array();
+		$headers[] = "MIME-Version: 1.0";
+		$headers[] = "Content-type: text/plain; charset=iso-8859-1";
+		$headers[] = "From: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
+		$headers[] = "Reply-To: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
+		$headers[] = "Subject: {$subject}";
+		$headers[] = "X-Mailer: PHP/".phpversion();
+		
+		$msgregis  = 'Pendaftaran anda berhasil, dengan data sebagai berikut' . "\n";
+		$msgregis .= 'Nama: ' . $newdata['nama'] . "\n";
+		$msgregis .= 'Email: ' . $newdata['email'] . "\n";
+		$msgregis .= 'Alamat: ' . $newdata['alamat'] . "\n";
+		$msgregis .= 'Kota: ' . $newdata['kota'] . "\n";
+		$msgregis .= 'Nomor Handphone: ' . $newdata['hp'] . "\n";
+		$msgregis .= 'Kode Registrasi: ' . $newdata['kode'] . "\n";
+		$msgregis .= '===================================' . "\n\n";
+		$msgregis .= 'Silahkan melakukan pembayaran melalui nomor rekening sebagai berikut' . "\n";
+		$msgregis .= 'Biaya Registrasi : Rp 50.000 (Lima Puluh Ribu Rupiah)' . "\n";
+		$msgregis .= 'Nomor Rekening: BCA 325 1222 400 an. Kiki Indah Novitasari' . "\n\n";
+		$msgregis .= '===================================' . "\n\n";
+		$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau Line sebagai berikut' . "\n";
+		$msgregis .= 'Atau alamat email sebagai berikut' . "\n";
+		$msgregis .= 'Illa 085810187939 / line @illarhs' . "\n";
+		$msgregis .= 'Kiki 081289846568 / line @ivonesarii' . "\n\n";
+		$msgregis .= '===================================' . "\n";
+		$msgregis .= 'Panitia Event FemaleGeek Surabaya' . "\n";
+
+		if( mail($emailto, $subject, $msgregis, implode("\r\n", $headers) ) ){
+			return true;
+		} else {
+			return;
+		}
+	} else {
+		return;
+	}
+}
+
+function generatekode(){
+	$a1 = array ("A","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9");
+	$random_keys= array_rand($a1, 6);
+	$kode1 = $a1[$random_keys[0]];
+	$kode2 = $a1[$random_keys[1]];
+	$kode3 = $a1[$random_keys[2]];
+	$kode4 = $a1[$random_keys[3]];
+	$kode5 = $a1[$random_keys[4]];
+	$kode6 = $a1[$random_keys[5]];
+	return $kode1.''.$kode2.''.$kode3.''.$kode4.''.$kode5.''.$kode6;
+}
+
+function cekexistskode($kode){
+	$sql = "SELECT kode FROM register WHERE kode = '$kode'";
+	$qry = mysql_query($sql);
+	$row = mysql_fetch_array($qry);
+
+	$cid = '';
+	if(!$row){
+		$cid = $kode;
+	} else {
+		$cid = generatekode();
+		cekexistskode($cid);
+	}
+
+	return $cid;
+}
+
+function cekemailexist($email){
+	$sql = "SELECT email FROM register WHERE email = '$email'";
+	$qry = mysql_query($sql);
+	$row = mysql_fetch_array($qry);
+
+	if(!$row){
+		return;
+	} else {
+		return true;
+	}
+}
+
+function statusattendee($sti){
+	$stat = array(
+		'0' => 'Validasi Pembayaran', 
+		'1' => 'Pembayaran Lunas', 
+		'2' => 'Batal Daftar', 
+		'3' => 'Konfirmasi Hadir', 
+		'4' => 'Batal Hadir',
+		'5' => 'Hadir'
+	);
+
+	return $stat[$sti];
 }
