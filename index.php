@@ -179,10 +179,10 @@
                   <input type="text" name="alamat" class="form-control" placeholder="Address" required>
                 </div>
                 <div class="form-group">
-                  <input type="email" name="nohp" class="form-control" placeholder="Email" required>
+                  <input type="email" name="email" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="form-group">
-                  <input type="text" name="email" class="form-control" placeholder="Phone" required>
+                  <input type="text" name="nohp" class="form-control" placeholder="Phone" required>
                 </div>
                 <div class="form-group">
                   <input type="text" name="kota" class="form-control" placeholder="City" required>
