@@ -33,27 +33,8 @@
 				</div>
 			</div>
 
-			<div class="row timeline-movement">
-				<div class="timeline-badge">
-					<span class="timeline-balloon-date-day">27</span>
-					<span class="timeline-balloon-date-month">JUN</span>
-				</div>
-
-				<div class="col-sm-6  timeline-item">
-					<div class="row">
-						<div class="col-sm-11">
-							<div class="timeline-panel credits">
-								<ul class="timeline-panel-ul">
-									<li><span class="importo">PANITIA</span></li>
-									<li><span class="causale">Registrasi dibuka. </span> </li>
-									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 27-06-2016 00:00:00</small></p> </li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 			<?php foreach ($datearr as $dateday) { ?>
+
 			<div class="row timeline-movement">
 				<div class="timeline-badge">
 					<span class="timeline-balloon-date-day"><?php echo tglku($dateday, 'd'); ?></span>
@@ -76,7 +57,7 @@
 											<img alt='testing' src="barcode.php?text=<?php echo $datrow['kode']; ?>" width="150" height="50" />
 										</span>
 									</li>
-									<li><span class="causale"><?php echo ($datrow['konfirm'] == 0) ? '<font color="red"><b>Waiting... </b></font>' : '<font color="blue"><b>CONFIRMED </b></font>'; ?></span></li>
+									<li><span class="causale"><?php echo ($datrow['konfirm'] <= 1) ? '<font color="red"><b>Waiting... </b></font>' : '<font color="blue"><b>CONFIRMED </b></font>'; ?></span></li>
 									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> <?php echo tglku($datrow['tgl'], 'd-m-Y H:i:s'); ?></small></p> </li>
 								</ul>
 							</div>
@@ -85,6 +66,25 @@
 					<?php } ?>
 					<?php } ?>
 				</div>
+
+				<?php $d01 = new DateTime($dateday); $d02 = new DateTime('27-06-2016 00:00:00'); if($d01 == $d02){ ?>
+
+				<div class="col-sm-6  timeline-item">
+					<div class="row">
+						<div class="col-sm-11">
+							<div class="timeline-panel credits">
+								<ul class="timeline-panel-ul">
+									<li><span class="importo">PANITIA</span></li>
+									<li><span class="causale">Registrasi dibuka. </span> </li>
+									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 27-06-2016 00:00:00</small></p> </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<?php } ?>
+
 			</div>
 			<?php } ?>
 			<!--due -->

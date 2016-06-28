@@ -2,27 +2,47 @@
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">Dashboard</h1>
-				<div class="row placeholders">
-					<div class="col-xs-6 col-sm-3 placeholder">
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
-					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
-					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
-					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
-						<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
-					</div>
+				<div class="row">
+					<div class="col-sm-6" id="piechart01"></div>
+					<div class="col-sm-6" id="piechart02"></div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+		var data = google.visualization.arrayToDataTable([
+			['Status', 'Jumlah'],
+			<?php foreach (pembayaranpeserta() as $pk) { ?>
+			['<?php echo $pk["konfirm"]; ?>', <?php echo $pk["jmlkonf"]; ?>],
+			<?php } ?>
+		]);
+
+		var options = {
+			title: 'Status Peserta',
+			height: 280
+		};
+
+		var chart = new google.visualization.PieChart(document.getElementById('piechart01'));
+		chart.draw(data, options);
+
+		var data02 = google.visualization.arrayToDataTable([
+			['Kota', 'Jumlah'],
+			<?php foreach(attendeeperkota() as $kk){ ?>
+			['<?php echo $kk['kota']; ?>', <?php echo $kk['jmlkota']; ?>],
+			<?php } ?>
+		]);
+
+		var options02 = {
+			title: 'Kota Peserta',
+			height: 280
+		};
+
+		var chart02 = new google.visualization.PieChart(document.getElementById('piechart02'));
+		chart02.draw(data02, options02);
+	}
+</script>
 				</div>
 
 				<h2 class="sub-header">Section title</h2>

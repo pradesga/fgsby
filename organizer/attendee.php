@@ -13,7 +13,6 @@
 								<th>Nama</th>
 								<th>Email</th>
 								<th>Telepon</th>
-								<th>Kota</th>
 								<th>Kode</th>
 								<th>Status</th>
 								<th>Action</th>
@@ -26,13 +25,12 @@
 								<td><?php echo $attk['nama']; ?></td>
 								<td><?php echo $attk['email']; ?></td>
 								<td><?php echo $attk['hp']; ?></td>
-								<td><?php echo $attk['kota']; ?></td>
 								<td><?php echo $attk['kode']; ?></td>
 								<td><?php echo statusattendee($attk['konfirm']); ?></td>
 								<td>
-									<a href="?action=del&id=<?php echo $attk['id']; ?>" class="btn btn-small btn-danger">delete</a> 
-									<a href="attendee-edit.php?id=<?php echo $attk['id']; ?>" class="btn btn-small btn-info">edit</a> 
-									<a href="attendee-view.php?id=<?php echo $attk['id']; ?>" class="btn btn-small btn-info">view</a>
+									<a href="?action=del&id=<?php echo $attk['id']; ?>" class="btn btn-xs btn-danger">delete</a> 
+									<a href="attendee-edit.php?id=<?php echo $attk['id']; ?>" class="btn btn-xs btn-warning">edit</a> 
+									<a href="attendee-view.php?id=<?php echo $attk['id']; ?>" class="btn btn-xs btn-primary">view</a>
 								</td>
 							</tr>
 							<?php } ?>

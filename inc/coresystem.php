@@ -13,7 +13,6 @@ mysql_connect($dbHost, $dbUser, $dbPass);
 mysql_select_db($dbName) or die(mysql_error());
 
 require 'vendor/autoload.php';
-use Mailgun\Mailgun;
 
 function sendemail($from, $to, $subject, $body){
 	$mgclient = new \Http\Adapter\Guzzle6\Client();
@@ -26,4 +25,55 @@ function sendemail($from, $to, $subject, $body){
 				'text'    => $body));
 	return true;
 }
+
+function emailer($mailto, $subject, $msg, $from = array('FemaleGeek Surabaya', 'fgsby@phpindonesia.or.id'), $bcc = null, $htmlview = false, $attach = null){
+	require 'PHPMailerAutoload.php';
+	$mail = new PHPMailer;
+
+	//$mail->SMTPDebug = 3;
+
+	$mail->isSMTP();
+	$mail->Host = 'mail.phpindonesia.or.id';
+	$mail->SMTPAuth = true;
+	$mail->Username = 'fgsby@phpindonesia.or.id';
+	$mail->Password = 'fgsby2016';
+	$mail->SMTPSecure = 'tls';
+	$mail->Port = 587;
+
+	$mail->setFrom($from[1], $from[0]);
+
+	if(is_array($mailto)){
+		foreach ($mailto as $toname => $tomail) {
+			$mail->addAddress($tomail, $toname);
+		}
+	}
+
+	$mail->addReplyTo($from[1], $from[0]);
+
+	if($bcc != null){
+		foreach ($bcc as $bccname => $bccmail){
+			$mail->addCC($bccmail, $bccname);
+		}
+	}
+
+	if($htmlview){
+		$mail->isHTML(true);
+	}
+
+	if($attach != null){
+		foreach ($attach as $doc) {
+			$mail->addAttachment($doc);
+		}
+	}
+
+	$mail->Subject = $subject;
+	$mail->Body = $msg;
+
+	if(!$mail->send()){
+		return;
+	} else {
+		return true;
+	}
+}
+
 ?>

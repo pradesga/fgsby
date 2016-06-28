@@ -107,6 +107,7 @@ function emailregistrasi(){
 		$msgregis .= 'Silahkan melakukan pembayaran melalui nomor rekening sebagai berikut' . "\n";
 		$msgregis .= 'Biaya Registrasi : Rp 50.000 (Lima Puluh Ribu Rupiah)' . "\n";
 		$msgregis .= 'Nomor Rekening: BCA 325 1222 400 an. Kiki Indah Novitasari' . "\n\n";
+		$msgregis .= 'Catatan: Sertakan kode registrasi di keterangan transfer.' . "\n\n";
 		$msgregis .= '===================================' . "\n\n";
 		$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau Line sebagai berikut' . "\n";
 		$msgregis .= 'Atau alamat email sebagai berikut' . "\n";
@@ -115,7 +116,11 @@ function emailregistrasi(){
 		$msgregis .= '===================================' . "\n";
 		$msgregis .= 'Panitia Event FemaleGeek Surabaya' . "\n";
 
-		if( mail($emailto, $subject, $msgregis, implode("\r\n", $headers) ) ){
+		// $pmailfrom = array();
+		$pmailto = array($bnama, $bemail);
+		
+		// if( mail($emailto, $subject, $msgregis, implode("\r\n", $headers) ) ){
+		if(emailer($pmailto, $subject, $msgregis)){
 			return true;
 		} else
 			return;

@@ -87,14 +87,45 @@ function getscannerjs($files = '/organizer/checkin.php'){
 	$jsstr  = '';
 	if($_SERVER['PHP_SELF'] == $files){
 		$jsstr  = '<script src="../js/html5-qrcode.min.js" type="text/javascript"></script>' . "\n";
+		$jsstr .= '<script src="../js/jquery.base64.min.js" type="text/javascript"></script>' . "\n";
 		$jsstr .= "\t" . '<script type="text/javascript">' . "\n";
 		$jsstr .= "\t\t" . '$(document).ready(function(){' . "\n";
-		$jsstr .= "\t\t\t" . '$("#reader").html5_qrcode(function(data){' . "\n";
-		$jsstr .= "\t\t\t\t" . '$("#read").html(data);' . "\n";
+		$jsstr .= "\t\t\t" . 'var atteid;' . "\n";
+		$jsstr .= "\t\t\t" . '$("#scanreader").html5_qrcode(function(kod){' . "\n";
+		$jsstr .= "\t\t\t\t" . '$("#scanread").val($.base64.decode(kod));' . "\n";
+		$jsstr .= "\t\t\t\t" . "$.post('', {kodereg: $.base64.decode(kod)}, 'json').done(function(getatten){" . "\n";
+		$jsstr .= "\t\t\t\t\t" . "$('#errbox').hide();";
+		$jsstr .= "\t\t\t\t\t" . "var atten = $.parseJSON(getatten);" . "\n";
+		$jsstr .= "\t\t\t\t\t" . "if(!atten.error){" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "atteid = atten.res.id;" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#tgl').html(atten.res.tgl);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#nama').html(atten.res.nama);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#email').html(atten.res.email);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#alamat').html(atten.res.alamat);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#kota').html(atten.res.kota);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#nohp').html(atten.res.hp);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#statreg').html(atten.res.statreg);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#tglbayar').html(atten.res.tglbayar);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#btncheckin').removeClass('btn-default');" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#btncheckin').addClass('btn-success');" . "\n";
+		$jsstr .= "\t\t\t\t\t" . "} else {" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#errmsg').html(atten.msg);" . "\n";
+		$jsstr .= "\t\t\t\t\t\t" . "$('#errbox').show();" . "\n";
+		$jsstr .= "\t\t\t\t\t" . "}" . "\n";
+		$jsstr .= "\t\t\t\t" . "});" . "\n";
 		$jsstr .= "\t\t\t" . '}, function(error){' . "\n";
-		$jsstr .= "\t\t\t\t" . '$("#read_error").html(error);' . "\n";
+		$jsstr .= "\t\t\t\t" . '$("#scanerror").html("Scanner ready! hadapkan QR pada camera!");' . "\n";
 		$jsstr .= "\t\t\t" . '}, function(videoError){' . "\n";
-		$jsstr .= "\t\t\t\t" . '$("#vid_error").html(videoError);' . "\n";
+		$jsstr .= "\t\t\t\t" . '$("#scanerror").html(videoError);' . "\n";
+		$jsstr .= "\t\t\t" . '});' . "\n";
+		$jsstr .= "\t\t\t" . '$("#btncheckin").click(function(e){' . "\n";
+		$jsstr .= "\t\t\t\t" . "e.preventDefault();" . "\n";
+		$jsstr .= "\t\t\t\t" . '$.post("", {aid: atteid, kodereg: $("#scanread").val(), doact: "update"}, "json").done(function(dt){' . "\n";
+		$jsstr .= "\t\t\t\t\t" . "var dtres = $.parseJSON(dt);" . "\n";
+		$jsstr .= "\t\t\t\t\t" . "$('#scanreport').html(dtres.msg);" . "\n";
+		$jsstr .= "\t\t\t\t\t" . '$("#btncheckin").removeClass("btn-success");' . "\n";
+		$jsstr .= "\t\t\t\t\t" . '$("#btncheckin").addClass("btn-default");' . "\n";
+		$jsstr .= "\t\t\t\t" . '});' . "\n";
 		$jsstr .= "\t\t\t" . '});' . "\n";
 		$jsstr .= "\t\t" . '});' . "\n";
 		$jsstr .= "\t" . '</script>' . "\n";
@@ -142,6 +173,8 @@ function delattendee(){
 				$sql = "DELETE FROM register WHERE id = '$attid'";
 				if(mysql_query($sql)){
 					$msg = msgbox('<strong>Berhasil!</strong> hapus peserta event berhasil.', 'warning');
+				} else {
+					$msg = msgbox('<strong>Server Error!</strong> data peserta event gagal dihapus.', 'danger');
 				}
 			}
 		}
@@ -149,17 +182,60 @@ function delattendee(){
 	echo $msg;
 }
 
+function gantistatus(){
+	$msg = "";
+	if(isset($_POST['ganti'])){
+		if($_POST['ganti'] != ""){
+			$attid = $_POST['aid'];
+			if($_POST['ganti'] == 'emailkonfirm'){
+				$from = $_POST['ganti'];
+			} else {
+				$from = (int)$_POST['ganti'];
+			}
+			$tgl = date("Y-m-d H:i:s");
+
+			if(!is_integer($from)){
+				$sql = "UPDATE register SET email_confirm = '1' WHERE id = '$attid'";
+			} elseif($from == 0){
+				$sql = "UPDATE register SET konfirm = '$from', tglbayar = NULL, tglkonfirm = NULL WHERE id = '$attid'";
+			} elseif($from == 1){
+				$sql = "UPDATE register SET konfirm = '$from', tglbayar = '$tgl', tglkonfirm = NULL WHERE id = '$attid'";
+			} elseif($from == 3 || $from == 4) {
+				$sql = "UPDATE register SET konfirm = '$from', tglkonfirm = '$tgl' WHERE id = '$attid'";
+			} else {
+				$sql = "UPDATE register SET konfirm = '$from' WHERE id = '$attid'";
+			}
+
+			if(mysql_query($sql)){
+				$msg = msgbox('<strong>Update Berhasil!</strong> status peserta event berhasil diganti.', 'success');
+			} else {
+				$msg = msgbox('<strong>Server Error!</strong> status peserta event gagal diganti.', 'danger');
+			}
+		} else {
+			$msg = msgbox('<strong>System Error!</strong> status peserta event gagal diganti.', 'danger');
+		}
+	}
+	echo $msg;
+}
+
 function updateattendee(){
 	$msg = "";
-	if($_SERVER['PHP_SELF'] == '/organizer/attendee.php'){
-		if(isset($_GET['action'])){
-			if($_GET['action'] == 'update'){
-				$attid = $_GET['id'];
-				$sql = "UPDATE FROM register WHERE id = '$attid'";
-				if(mysql_query($sql)){
-					$msg = msgbox('<strong>Berhasil!</strong> hapus peserta event berhasil.', 'warning');
-				}
-			}
+	if(isset($_POST['attid'])){
+		$attid = $_POST['attid'];
+		$newdata = array(
+			'nama' => $_POST['nama'],
+			'email' => $_POST['email'],
+			'alamat' => $_POST['alamat'],
+			'kota' => $_POST['kota'],
+			'hp' => $_POST['nohp'],
+			'kode' => $_POST['kodereg']
+		);
+		$redi = implode(', ', array_map(function ($v, $k) { return sprintf("%s='%s'", $k, $v); }, $newdata, array_keys($newdata)));
+		$sql = "UPDATE register SET  $redi WHERE id = '$attid'";
+		if(mysql_query($sql)){
+			$msg = msgbox('<strong>Update Berhasil!</strong> data peserta event berhasil dirubah.', 'success');
+		} else {
+			$msg = msgbox('<strong>System Error!</strong> status peserta event gagal diganti.', 'danger');
 		}
 	}
 	echo $msg;
@@ -276,4 +352,102 @@ function statusattendee($sti){
 	);
 
 	return $stat[$sti];
+}
+
+function tglku($datestr, $format){
+	$datestr = new DateTime($datestr);
+	return date_format($datestr, $format);
+}
+
+function getattendeebykodereg(){
+	$msg = array();
+	if(isset($_POST['kodereg'])){
+		$attid = $_POST['kodereg'];
+		$sql = "SELECT * FROM register WHERE kode = '$attid'";
+		$qry = mysql_query($sql);
+		while ($row = mysql_fetch_array($qry)) {
+			foreach ($row as $k => $v) {
+				if(!is_int($k) || $k == 0 )
+					$msg[$k] = $v;
+				if('konfirm' == $k){
+					$msg[$k] = $v;
+					$msg['statreg'] = statusattendee($v);
+				}
+				
+			}
+		}
+	}
+	return $msg;
+}
+
+if(isset($_POST['kodereg'])){
+	if($_SERVER['PHP_SELF'] == '/organizer/checkin.php'){
+		if(isset($_POST['doact'])){
+			$from = '5';
+			$kr = $_POST['kodereg'];
+			$sql = "UPDATE register SET konfirm = '$from' WHERE kode = '$kr'";
+			if(mysql_query($sql)){
+				echo json_encode(array('error' => false, 'res' => true, 'msg' => 'Checkin Berhasil!'));
+				die();
+			} else {
+				echo json_encode(array('error' => true, 'res' => null, 'msg' => 'Checkin gagal, silahkan coba lagi!'));
+				die();
+			}
+		} else {
+			$att = getattendeebykodereg();
+			if($att != null){
+				echo json_encode(array('error' => false, 'res' => $att, 'msg' => 'data suskses'));
+				die();
+			} else {
+				echo json_encode(array('error' => true, 'res' => null, 'msg' => 'Data tidak ditemukan!'));
+				die();
+			}
+		}
+	}
+}
+
+function attendeeperkota(){
+	$sql = "SELECT kota, COUNT( kota ) AS jmlkota FROM register GROUP BY kota HAVING ( COUNT( kota ) >=1 )";
+	$qry = mysql_query($sql);
+
+	$resul = array();
+	while ($rows = mysql_fetch_array($qry)) {
+		$tr = array();
+		foreach ($rows as $k => $v) {
+			if(!is_integer($k))
+				$tr[$k] = $v;
+		}
+		$resul[] = $tr;
+	}
+	return $resul;
+}
+
+function pembayaranpeserta(){
+	$sql = "SELECT konfirm, COUNT( konfirm ) AS jmlkonf FROM register GROUP BY konfirm HAVING( COUNT( konfirm ) >= 1 )";
+	$qry = mysql_query($sql);
+
+	$stat = array(
+		'0' => 'Validasi Pembayaran', 
+		'1' => 'Pembayaran Lunas', 
+		'2' => 'Batal Daftar', 
+		'3' => 'Konfirmasi Hadir', 
+		'4' => 'Batal Hadir',
+		'5' => 'Hadir'
+	);
+
+	$resul = array();
+	while ($rows = mysql_fetch_array($qry)) {
+		$tr = array();
+		foreach ($rows as $k => $v) {
+			if(!is_integer($k)){
+				if("konfirm" == $k){
+					$tr[$k] = $stat[$v];
+				} else {
+					$tr[$k] = $v;
+				}
+			}
+		}
+		$resul[] = $tr;
+	}
+	return $resul;
 }
