@@ -1,98 +1,102 @@
-<?php require("inc/frontend.php"); ?><!DOCTYPE html>
+<?php require('inc/frontend.php'); ?>
+<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="FemaleGeek Surabaya - Timeline">
+  <title>FemaleGeek Surabaya - Timeline</title>
 
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+  <!-- stylesheet -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
 
-	<title>FemaleGeek Surabaya</title>
-
-	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<link href="css/main.css" rel="stylesheet">
 </head>
 <body>
-	<center>
-		<a class="logofg" href="/"><img src="img/fg.png"></a>
-	</center>
 
-	<div class="container">
-		<div class="page-header">
-			<h1 id="">Timeline Registrations</h1>
-		</div>
-		<div id="timeline">
-			<div class="row timeline-movement timeline-movement-top">
-				<div class="timeline-badge timeline-future-movement">
-					<a href="#"><span class="glyphicon glyphicon-plus"></span></a>
-				</div>
-				<div class="timeline-badge timeline-filter-movement">
-					<a href="#"><span class="glyphicon glyphicon-time"></span></a>
-				</div>
-			</div>
+  <!-- navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href=""><img src="assets/img/brand_white.png" alt=""></a>
+      </div>
+    </div>
+  </nav>
 
-			<?php foreach ($datearr as $dateday) { ?>
+  <section id="timeline">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1>Timeline Registrations</h1>
+        </div>
+        <div class="col-md-12">
 
-			<div class="row timeline-movement">
-				<div class="timeline-badge">
-					<span class="timeline-balloon-date-day"><?php echo tglku($dateday, 'd'); ?></span>
-					<span class="timeline-balloon-date-month"><?php echo strtoupper(tglku($dateday, 'M')); ?></span>
-				</div>
+          <div class="timeline">
 
-				<div class="col-sm-offset-6 col-sm-6  timeline-item">
-					<?php foreach ($datarr as $datrow) { ?>
-					<?php if( tglku($dateday, 'd-m-Y') == tglku($datrow['tgl'], 'd-m-Y') ){ ?>
-					<div class="row timeline-day">
-						<div class="col-sm-offset-1 col-sm-11">
-							<div class="timeline-panel debits">
-								<ul class="timeline-panel-ul">
-									<li><span class="importo">REGISTER</span></li>
-									<li><span class="causale"><b><?php echo strtoupper($datrow['nama']); ?>. </b></span> </li>
-									<li><span class="causale"><?php echo strtoupper($datrow['kota']); ?></span></li>
-									<li>
-										<span class="causale">
-											<h4><?php echo $datrow['kode']; ?></h4>
-											<img alt='testing' src="barcode.php?text=<?php echo $datrow['kode']; ?>" width="150" height="50" />
-										</span>
-									</li>
-									<li><span class="causale"><?php echo ($datrow['konfirm'] <= 1) ? '<font color="red"><b>Waiting... </b></font>' : '<font color="blue"><b>CONFIRMED </b></font>'; ?></span></li>
-									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> <?php echo tglku($datrow['tgl'], 'd-m-Y H:i:s'); ?></small></p> </li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<?php } ?>
-					<?php } ?>
-				</div>
+          <?php foreach ($datarr as $row) { ?>
+            <article class="timeline-entry">
+              <div class="timeline-entry-inner">
+                <time class="timeline-time"><span><?php echo tglku($row['tgl'], 'H:i:s'); ?></span> <span><?php echo tglku($row['tgl'], 'd F Y'); ?></span></time>
+                <?php if ($row['konfirm']) { ?>
+                  <div class="timeline-icon bg-success"><span class="glyphicon glyphicon-ok"></span></div>
+                <?php } else { ?>
+                  <div class="timeline-icon bg-warning"><span class="glyphicon glyphicon-time"></span></div>
+                <?php } ?>
+                <div class="timeline-label">
+                  <h2><?php echo ucwords(strtolower($row['nama'])); ?> <span class="text-muted"><?php echo ucwords(strtolower($row['kota'])); ?></span></h2>
+                  <p><?php echo trim($row['kode']); ?><br>Status <?php echo ($row['konfirm']) ? '<strong class="text-success">Confirmed</strong>' : '<strong class="text-warning">Waiting</strong>'; ?></p>
+                </div>
+              </div>
+            </article>
+          <?php } ?>
 
-				<?php $d01 = new DateTime($dateday); $d02 = new DateTime('27-06-2016 00:00:00'); if($d01 == $d02){ ?>
+            <article class="timeline-entry left-aligned begin">
+              <div class="timeline-entry-inner">
+                <time class="timeline-time"><span>00:00:00</span> <span>27 June 2016</span></time>
+                <div class="timeline-icon bg-secondary">
+                  <span class="glyphicon glyphicon-flag"></span>
+                </div>
+                <div class="timeline-label">
+                  <h2>Registration Open</h2>
+                </div>
+              </div>
+            </article>
+          </div>
 
-				<div class="col-sm-6  timeline-item">
-					<div class="row">
-						<div class="col-sm-11">
-							<div class="timeline-panel credits">
-								<ul class="timeline-panel-ul">
-									<li><span class="importo">PANITIA</span></li>
-									<li><span class="causale">Registrasi dibuka. </span> </li>
-									<li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 27-06-2016 00:00:00</small></p> </li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
+        </div>
+      </div><!-- /.row -->
+    </div>
+  </section>
 
-				<?php } ?>
+  <a href="#" class="scrolling scroll-up"><span class="glyphicon glyphicon-menu-up"></span></a>
 
-			</div>
-			<?php } ?>
-			<!--due -->
-		</div>
-	</div>
+  <footer>
+    <div class="container">
+      <p class="text-center">Copyright 2016 - Team Female Geek Surabaya</p>
+    </div>
+  </footer>
 
-	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  <a href="#" class="scrolling scroll-up"><span class="glyphicon glyphicon-menu-up"></span></a>
+
+  <!-- javascript -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    $(window).on('scroll', function() {
+      if($(window).scrollTop() >= 100) {
+        $('.scroll-up').fadeIn();
+      } else {
+        $('.scroll-up').fadeOut();
+      }
+    }).scroll();
+
+    $('.scroll-up').click(function(){
+      $("html, body").animate({ scrollTop: 0 }, 1000);
+      return false;
+    });
+  </script>
 
 </body>
 </html>

@@ -48,7 +48,7 @@ switch (str_replace('/', '', $_SERVER['PHP_SELF'])) {
 	case 'timeline.php':
 		$datarr = array();
 		$datearr = array();
-		$gs = "SELECT id, nama, tgl, kota, kode, konfirm FROM register ORDER BY id DESC";
+		$gs = "SELECT id, nama, tgl, kota, kode, konfirm FROM register ORDER BY tgl DESC";
 		$fs = mysql_query($gs);
 		
 		while($row = mysql_fetch_array($fs)){
