@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Female Geek Surabaya - PHP Indonesia">
-  <title>Female Geek Surabaya - PHP Indonesia</title>
+  <meta name="description" content="FemaleGeek Surabaya - Home">
+  <title>FemaleGeek Surabaya - Home</title>
 
   <!-- stylesheet -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -35,6 +35,18 @@
     <!-- carousel -->
     <div class="carousel-inner">
       <div class="item active">
+        <div class="fill" style="background-image: url('assets/img/four.jpg');">
+          <div class="hero">
+            <div class="container">
+              <h2>Events</h2>
+              <p>How to Become a Developer - Team Female Geek Surabaya at Dilo Surabaya</p>
+              <button class="btn btn-transparent btn-lg scroll-register" type="button">Register</button>
+              <a class="btn btn-transparent btn-lg" href="timeline.php" role="button">Timeline</a>
+            </div>
+          </div><!-- ./hero -->
+        </div>
+      </div>
+      <div class="item">
         <div class="fill" style="background-image: url('assets/img/one.jpg');">
           <div class="hero">
             <div class="container">
@@ -63,17 +75,6 @@
               <h2>E-Magazine</h2>
               <p>Majalah elektronik resmi dari PHP Indonesia yang berisi informasi seputar meetup / seminar maupun workshop yang diselenggarakan oleh PHP Indonesia</p>
               <a class="btn btn-transparent btn-lg" href="http://femalegeek.phpindonesia.or.id/download/27/" role="button">Download</a>
-            </div>
-          </div><!-- ./hero -->
-        </div>
-      </div>
-      <div class="item">
-        <div class="fill" style="background-image: url('assets/img/four.jpg');">
-          <div class="hero">
-            <div class="container">
-              <h2>Events</h2>
-              <p>How to Become a Developer - Team Female Geek Surabaya at Dilo Surabaya</p>
-              <button class="btn btn-transparent btn-lg scroll-register" type="button">Register Now</button>
             </div>
           </div><!-- ./hero -->
         </div>
@@ -115,18 +116,18 @@
           <div class="row center-block">
             <div class="col-sm-4 text-center">
               <img class="img-circle img-thumbnail" src="assets/img/anne.jpg">
-              <h3>Anne Regina</h3>
-              <p><em>Female Geek</em></p>
+              <h3>Anne Regina Nancy Toar</h3>
+              <p><em>Head of FemaleGeek PHP Indonesia</em></p>
             </div>
             <div class="col-sm-4 text-center">
               <img class="img-circle img-thumbnail" src="assets/img/peter.jpg">
-              <h3>Peter J. Kambey</h3>
-              <p><em>PHP Indonesia</em></p>
+              <h3>Peter Jack Kambey</h3>
+              <p><em>Head of PHP Indonesia</em></p>
             </div>
             <div class="col-sm-4 text-center">
               <img class="img-circle img-thumbnail" src="assets/img/ibnu.jpg">
-              <h3>Ibnu Sina</h3>
-              <p><em>Google Expert</em></p>
+              <h3>Ibnu Sina Wardy</h3>
+              <p><em>Google Developers Expert</em></p>
             </div>
           </div>
         </div>
@@ -139,7 +140,7 @@
       <div class="row">
         <div class="col-md-6 col-md-offset-3 text-center">
           <h1>Countdown to Event</h1>
-          <p class="slogan">Event will be held on 28 August 2016.</p>
+          <p class="slogan">Event will be held on Sunday, 28 August 2016 09:00:00.</p>
           <div class="row countdown">
             <div class="countdown-item col-sm-3 col-xs-6">
               <div id="countdown-days" class="countdown-number"></div>
@@ -169,20 +170,21 @@
         <div class="col-md-12 center-block text-center">
           <h1>Event Registration</h1>
           <p class="slogan">Please fill all form with valid data.</p>
-          <form class="contact-form" action="registrasi.php" method="post" role="form">
+          <form id="register-form" action="" method="post" role="form">
             <div class="row">
               <div class="col-md-8 col-md-offset-2">
+                <div id="messages"></div>
                 <div class="form-group">
                   <input type="text" name="nama" class="form-control" placeholder="Full name" required>
-                </div>
-                <div class="form-group">
-                  <input type="text" name="alamat" class="form-control" placeholder="Address" required>
                 </div>
                 <div class="form-group">
                   <input type="email" name="email" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="form-group">
                   <input type="text" name="nohp" class="form-control" placeholder="Phone" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" name="alamat" class="form-control" placeholder="Address" required>
                 </div>
                 <div class="form-group">
                   <input type="text" name="kota" class="form-control" placeholder="City" required>
@@ -270,6 +272,28 @@
     $('.scroll-up').click(function(){
       $("html, body").animate({ scrollTop: 0 }, 1000);
       return false;
+    });
+
+    $('#register-form').submit(function(event) {
+      event.preventDefault();
+
+      $.ajax({
+        url: 'registrasi.php',
+        type: 'POST',
+        data: $(this).serialize(),
+        beforeSend: function() {
+          $('#register-form :submit').prop('disabled', true);
+          $('#register-form :submit').text('Registering ...');
+        },
+        success: function(response) {
+          $('#register-form :submit').text('Register');
+          $('#register-form :submit').prop('disabled', false);
+          $('#register-form #messages').html(response);
+        },
+        error: function(response) {
+          $(this).find('#messages').html(response);
+        },
+      });
     });
   </script>
 
