@@ -3,7 +3,7 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">Attendee View Data</h1>
 
-				<?php gantistatus(); $atten = getattendeebyid(); ?>
+				<?php kirimemailnotif(); gantistatus(); $atten = getattendeebyid(); ?>
 
 				<div class="panel panel-primary">
 					<div class="panel-heading">
@@ -93,18 +93,25 @@
 					<div class="panel-body">
 						<form class="form-inline" method="post">
 							<input type="hidden" name="aid" id="aid" value="<?php echo $atten['id']; ?>">
-							<?php  ?>
-							<div class="form-group">
-								<button type="submit" name="ganti" id="ganti" value="emailkonfirm" class="btn btn-<?php echo ($atten['email_confirm'] == 0) ? 'default' : 'success'; ?>">Email Konfirmasi</button>
-							</div>
-						<?php $stat = array(
-							'0' => 'Validasi Pembayaran', 
-							'1' => 'Pembayaran Lunas', 
-							'2' => 'Batal Daftar', 
-							'3' => 'Konfirmasi Hadir', 
-							'4' => 'Batal Hadir',
-							'5' => 'Hadir'
-						); foreach ($stat as $k => $v) { if($k == $atten['konfirm']){ $clss = 'info'; }else{ $clss = 'default'; } ?>
+							
+							<?php $stat = array(
+								'0' => 'Validasi Pembayaran', 
+								'1' => 'Pembayaran Lunas', 
+								'2' => 'Batal Daftar', 
+								'3' => 'Konfirmasi Hadir', 
+								'4' => 'Batal Hadir',
+								'5' => 'Hadir'
+							); 
+							foreach ($stat as $k => $v) { 
+								if($k == $atten['konfirm']){
+									if($k == '2' || $k == '4') {
+										$clss = 'danger';
+									} else {
+										$clss = 'info';
+									}
+								} else { 
+									$clss = 'default'; 
+								} ?>
 
 							<div class="form-group">
 								<button type="submit" name="ganti" id="ganti" value="<?php echo $k; ?>" class="btn btn-<?php echo $clss; ?>"><?php echo $v; ?></button>
@@ -122,22 +129,30 @@
 					</div>
 					<div class="panel-body">
 						<form class="form-inline" method="post">
+							<input type="hidden" name="aid" id="aid" value="<?php echo $atten['id']; ?>">
 							<div class="form-group">
-								<select id="action" name="action">
-									<option value="registrasi">Notifikasi Registrasi</option>
-									<option value="pembayarangagal">Notifikasi Pembayaran Gagal</option>
-									<option value="pembayaranberhasil">Notifikasi Pembayaran Berhasil</option>
-									<option value="kirimundangan">Notifikasi Undangan</option>
-									<option value="kehadiran">Notifikasi Konfirmasi Kehadiran</option>
-									<option value="kirimqr">Kirim QR</option>
-								</select>
+								<button type="submit" name="emailnotif" value="0" class="btn btn-<?php echo ($atten['email_confirm'] == 0) ? 'default' : 'warning'; ?>">Reset</button>
 							</div>
+
+							<?php $emnot = array("Notifikasi Registrasi", "Pembayaran Berhasil", "Pembayaran Gagal", "Kirim Undangan", "Konfirmasi Hadir"); ?>
+							<?php foreach ($emnot as $enk => $env) { 
+								$cllss = "";
+								switch ($enk) {
+									
+									default:
+										if( $enk == $atten['email_confirm'] ){ 
+											$cllss = 'success'; 
+										} else {
+											$cllss = 'default'; 
+										}
+										break;
+								} ?>
+
 							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									<input type="hidden" name="aid" id="aid" value="">
-									<button type="submit" class="btn btn-default">Kirim Email</button>
-								</div>
+								<button type="submit" name="emailnotif" value="<?php echo $enk+1; ?>" class="btn btn-<?php echo $cllss; ?>"><?php echo $env; ?></button>
 							</div>
+
+							<?php } ?>
 						</form>
 					</div>
 				</div>

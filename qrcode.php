@@ -18,7 +18,7 @@ function get_image($data, $size = 250, $EC_level = 'L', $margin = '0'){
 	$data = urlencode($data);
 	curl_setopt($ch, CURLOPT_URL, 'http://chart.apis.google.com/chart');
 	curl_setopt($ch, CURLOPT_POST, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, 'chs='.$size.'x'.$size.'&cht=qr&chld='.$EC_level.'|'.$margin.'&chl='.$data);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, 'chs='.$size.'x'.$size.'&cht=qr&chld='.$EC_level.'|'.$margin.'&chl='.urlencode($data));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_HEADER, false);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 30);

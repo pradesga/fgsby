@@ -242,63 +242,73 @@ function updateattendee(){
 }
 
 function newattendee(){
-	$cid = generatekode();
-	$cid = cekexistskode($cid);
-	$tgl = date("Y-m-d H:i:s");
+	$mmssgg = "";
+	if($_POST != null){ 
+		$cid = generatekode();
+		$cid = cekexistskode($cid);
+		$tgl = date("Y-m-d H:i:s");
 
-	$newdata = array(
-		'nama' => $_POST['nama'],
-		'alamat' => $_POST['alamat'],
-		'hp' => $_POST['nohp'],
-		'email' => $_POST['email'],
-		'kota' => $_POST['kota'],
-		'kode' => $cid,
-		'tgl' => $tgl,
-		'konfirm' => 0
-	);
+		$newdata = array(
+			'nama' => $_POST['nama'],
+			'alamat' => $_POST['alamat'],
+			'hp' => $_POST['nohp'],
+			'email' => $_POST['email'],
+			'kota' => $_POST['kota'],
+			'kode' => $cid,
+			'tgl' => $tgl,
+			'konfirm' => 0
+		);
 
-	$redi = implode(', ', array_map(function ($v, $k) { return sprintf("%s='%s'", $k, $v); }, $newdata, array_keys($newdata)));
-	$sql = "INSERT INTO register SET $redi";
-	if( mysql_query($sql) ){
-		$emailfrom = 'FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>';
-		$emailto = $newdata['nama'] . ' <'.$newdata['email'].'>';
-		$subject = 'Konfirmasi Registrasi Event';
+		$redi = implode(', ', array_map(function ($v, $k) { return sprintf("%s='%s'", $k, $v); }, $newdata, array_keys($newdata)));
+		$sql = "INSERT INTO register SET $redi";
+		if( mysql_query($sql) ){
+			$emailfrom = 'FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>';
+			$emailto = $newdata['nama'] . ' <'.$newdata['email'].'>';
+			$subject = 'Konfirmasi Registrasi Event';
 
-		$headers   = array();
-		$headers[] = "MIME-Version: 1.0";
-		$headers[] = "Content-type: text/plain; charset=iso-8859-1";
-		$headers[] = "From: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
-		$headers[] = "Reply-To: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
-		$headers[] = "Subject: {$subject}";
-		$headers[] = "X-Mailer: PHP/".phpversion();
-		
-		$msgregis  = 'Pendaftaran anda berhasil, dengan data sebagai berikut' . "\n";
-		$msgregis .= 'Nama: ' . $newdata['nama'] . "\n";
-		$msgregis .= 'Email: ' . $newdata['email'] . "\n";
-		$msgregis .= 'Alamat: ' . $newdata['alamat'] . "\n";
-		$msgregis .= 'Kota: ' . $newdata['kota'] . "\n";
-		$msgregis .= 'Nomor Handphone: ' . $newdata['hp'] . "\n";
-		$msgregis .= 'Kode Registrasi: ' . $newdata['kode'] . "\n";
-		$msgregis .= '===================================' . "\n\n";
-		$msgregis .= 'Silahkan melakukan pembayaran melalui nomor rekening sebagai berikut' . "\n";
-		$msgregis .= 'Biaya Registrasi : Rp 50.000 (Lima Puluh Ribu Rupiah)' . "\n";
-		$msgregis .= 'Nomor Rekening: BCA 325 1222 400 an. Kiki Indah Novitasari' . "\n\n";
-		$msgregis .= '===================================' . "\n\n";
-		$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau Line sebagai berikut' . "\n";
-		$msgregis .= 'Atau alamat email sebagai berikut' . "\n";
-		$msgregis .= 'Illa 085810187939 / line @illarhs' . "\n";
-		$msgregis .= 'Kiki 081289846568 / line @ivonesarii' . "\n\n";
-		$msgregis .= '===================================' . "\n";
-		$msgregis .= 'Panitia Event FemaleGeek Surabaya' . "\n";
+			$headers   = array();
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/plain; charset=iso-8859-1";
+			$headers[] = "From: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
+			$headers[] = "Reply-To: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
+			$headers[] = "Subject: {$subject}";
+			$headers[] = "X-Mailer: PHP/".phpversion();
+			
+			$msgregis  = 'Hello ' . $newdata['nama'] . ',' . "\n";
+			$msgregis .= 'Pendaftaran anda berhasil, dengan data sebagai berikut' . "\n";
+			$msgregis .= 'Nama: ' . $newdata['nama'] . "\n";
+			$msgregis .= 'Email: ' . $newdata['email'] . "\n";
+			$msgregis .= 'Alamat: ' . $newdata['alamat'] . "\n";
+			$msgregis .= 'Kota: ' . $newdata['kota'] . "\n";
+			$msgregis .= 'Nomor Handphone: ' . $newdata['hp'] . "\n";
+			$msgregis .= 'Kode Registrasi: ' . $newdata['kode'] . "\n";
+			$msgregis .= '===================================' . "\n\n";
+			$msgregis .= 'Silahkan melakukan pembayaran melalui nomor rekening sebagai berikut' . "\n";
+			$msgregis .= 'Biaya Registrasi : Rp 50.000 (Lima Puluh Ribu Rupiah)' . "\n";
+			$msgregis .= 'Nomor Rekening: BCA 325 1222 400 an. Kiki Indah Novitasari' . "\n\n";
+			$msgregis .= 'Catatan: Sertakan kode registrasi di keterangan transfer.' . "\n\n";
+			$msgregis .= '===================================' . "\n\n";
+			$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau Line sebagai berikut' . "\n";
+			$msgregis .= 'Atau alamat email sebagai berikut' . "\n";
+			$msgregis .= 'Illa 085810187939 / line @illarhs' . "\n";
+			$msgregis .= 'Kiki 081289846568 / line @ivonesarii' . "\n\n";
+			$msgregis .= '===================================' . "\n";
+			$msgregis .= 'Panitia Event FemaleGeek Surabaya' . "\n";
 
-		if( mail($emailto, $subject, $msgregis, implode("\r\n", $headers) ) ){
-			return true;
+			// $pmailfrom = array();
+			$pmailto = array($newdata['nama'], $newdata['email']);
+			
+			// if( mail($emailto, $subject, $msgregis, implode("\r\n", $headers) ) ){
+			if(emailer($pmailto, $subject, $msgregis)){
+				$mmssgg = msgbox('Data peserta baru telah tersimpan!', 'success'); 
+			} else {
+				$mmssgg = msgbox('Data tersimpan!, tetapi email gagal terkirim, lakukan pengiriman email manual!', 'info'); 
+			}
 		} else {
-			return;
+			$mmssgg = msgbox('Data tidak tersimpan, koreksi dan ulangi beberapa saat lagi!', 'danger'); 
 		}
-	} else {
-		return;
 	}
+	return $mmssgg;
 }
 
 function generatekode(){
@@ -450,4 +460,23 @@ function pembayaranpeserta(){
 		$resul[] = $tr;
 	}
 	return $resul;
+}
+
+function kirimemailnotif(){
+	if(isset($_POST['emailnotif'])){
+		if($_POST['emailnotif'] != ""){
+			$en = (int)$_POST['emailnotif'];
+			$en = $en;
+			$attid = $_POST['aid'];
+			$sql = "UPDATE register SET email_confirm = '$en' WHERE id = '$attid'";
+
+			if(mysql_query($sql)){
+				$msg = msgbox('<strong>Update Berhasil!</strong> status peserta event berhasil diganti.', 'success');
+			} else {
+				$msg = msgbox('<strong>Server Error!</strong> status peserta event gagal diganti.', 'danger');
+			}
+		} else {
+			$msg = msgbox('<strong>System Error!</strong> status peserta event gagal diganti.', 'danger');
+		}
+	}
 }

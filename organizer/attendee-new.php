@@ -3,15 +3,7 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">Submit New Attendee</h1>
 
-				<?php 
-				if($_POST != null){ 
-					if(newattendee()){ 
-						echo msgbox('Data peserta baru telah tersimpan!', 'success'); 
-					} else {
-						echo msgbox('Data tidak tersimpan, koreksi dan ulangi beberapa saat lagi!', 'danger'); 
-					}
-				} 
-				?>
+				<?php echo newattendee(); ?>
 
 				<form class="form-horizontal" method="post">
 					<div class="form-group">

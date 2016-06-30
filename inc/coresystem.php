@@ -27,18 +27,18 @@ function sendemail($from, $to, $subject, $body){
 }
 
 function emailer($mailto, $subject, $msg, $from = array('FemaleGeek Surabaya', 'fgsby@phpindonesia.or.id'), $bcc = null, $htmlview = false, $attach = null){
-	require 'PHPMailerAutoload.php';
+	require 'vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 	$mail = new PHPMailer;
 
-	//$mail->SMTPDebug = 3;
+	$mail->SMTPDebug = 3;
 
 	$mail->isSMTP();
-	$mail->Host = 'mail.phpindonesia.or.id';
 	$mail->SMTPAuth = true;
-	$mail->Username = 'fgsby@phpindonesia.or.id';
-	$mail->Password = 'fgsby2016';
-	$mail->SMTPSecure = 'tls';
-	$mail->Port = 587;
+	$mail->Host = 'ssl://smtp.gmail.com';
+	$mail->Username = 'femalegeeksurabaya@gmail.com'; 
+	$mail->Password = 'icha200677';
+	$mail->SMTPSecure = 'sll';
+	$mail->Port = 465;
 
 	$mail->setFrom($from[1], $from[0]);
 
@@ -73,6 +73,21 @@ function emailer($mailto, $subject, $msg, $from = array('FemaleGeek Surabaya', '
 		return;
 	} else {
 		return true;
+	}
+}
+
+function creatpdf(){
+	try {
+		ob_start();
+		include '/../ticket.php';
+		$content = ob_get_clean();
+		$html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', 0);
+		$html2pdf->pdf->SetDisplayMode('fullpage');
+		$html2pdf->writeHTML($content);
+		$html2pdf->Output('ticket.pdf');
+	} catch (Html2PdfException $e) {
+		$formatter = new ExceptionFormatter($e);
+		echo $formatter->getHtmlMessage();
 	}
 }
 
