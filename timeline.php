@@ -45,7 +45,8 @@
                 <?php } ?>
                 <div class="timeline-label">
                   <h2><?php echo ucwords(strtolower($row['nama'])); ?> <span class="text-muted"><?php echo ucwords(strtolower($row['kota'])); ?></span></h2>
-                  <p><?php echo trim($row['kode']); ?><br>Status <?php echo ($row['konfirm']) ? '<strong class="text-success">Confirmed</strong>' : '<strong class="text-warning">Waiting</strong>'; ?></p>
+                  <p><strong><?php echo trim($row['kode']); ?></strong><br>Status <?php echo ($row['konfirm']) ? '<strong class="text-success">Confirmed</strong>' : '<strong class="text-warning">Waiting</strong>'; ?></p>
+                  <?php echo ($row['konfirm']) ? 'Payment Date <strong class="text-success">'.tglku($row['tglbayar'], 'd F Y H:i:s').'</strong>' : ''; ?>
                 </div>
               </div>
             </article>
