@@ -35,7 +35,11 @@
           <div class="timeline">
 
           <?php foreach ($datarr as $row) { ?>
+            <?php if ($row['konfirm']) { ?>
             <article class="timeline-entry">
+            <?php } else { ?>
+            <article class="timeline-entry left-aligned">
+            <?php } ?>
               <div class="timeline-entry-inner">
                 <time class="timeline-time"><span><?php echo tglku($row['tgl'], 'H:i:s'); ?></span> <span><?php echo tglku($row['tgl'], 'd F Y'); ?></span></time>
                 <?php if ($row['konfirm']) { ?>
@@ -46,13 +50,12 @@
                 <div class="timeline-label">
                   <h2><?php echo ucwords(strtolower($row['nama'])); ?> <span class="text-muted"><?php echo ucwords(strtolower($row['kota'])); ?></span></h2>
                   <p><strong><?php echo trim($row['kode']); ?></strong><br>Status <?php echo ($row['konfirm']) ? '<strong class="text-success">Confirmed</strong>' : '<strong class="text-warning">Waiting</strong>'; ?></p>
-                  <?php echo ($row['konfirm']) ? 'Payment Date <strong class="text-success">'.tglku($row['tglbayar'], 'd F Y H:i:s').'</strong>' : ''; ?>
                 </div>
               </div>
             </article>
           <?php } ?>
 
-            <article class="timeline-entry left-aligned begin">
+            <article class="timeline-entry begin">
               <div class="timeline-entry-inner">
                 <time class="timeline-time"><span>00:00:00</span> <span>27 June 2016</span></time>
                 <div class="timeline-icon bg-secondary">
