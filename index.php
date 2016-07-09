@@ -18,7 +18,7 @@
   <nav class="navbar navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href=""><img src="assets/img/brand_white.png" alt=""></a>
+        <a class="navbar-brand" href="/"><img src="assets/img/brand_white.png" alt=""></a>
       </div>
     </div>
   </nav>
