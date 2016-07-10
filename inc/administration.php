@@ -148,19 +148,23 @@ function getattendee(){
 	return $datrow;
 }
 
-function getattendeebyid(){
+function getattendeebyid($atid = ""){
 	$msg = array();
-	if(isset($_GET['id'])){
+	if(isset($_GET['id']))
 		$attid = $_GET['id'];
-		$sql = "SELECT * FROM register WHERE id = '$attid'";
-		$qry = mysql_query($sql);
-		while ($row = mysql_fetch_array($qry)) {
-			foreach ($row as $k => $v) {
-				if(!is_int($k))
-					$msg[$k] = $v;
-			}
+
+	if($atid != "")
+		$attid = $atid;
+
+	$sql = "SELECT * FROM register WHERE id = '$attid'";
+	$qry = mysql_query($sql);
+	while ($row = mysql_fetch_array($qry)) {
+		foreach ($row as $k => $v) {
+			if(!is_int($k))
+				$msg[$k] = $v;
 		}
 	}
+	$msg = $msg + array('urlundangan' => tglku($msg['tgl'], 'dmYHis') . '.pdf');
 	return $msg;
 }
 
@@ -466,17 +470,127 @@ function kirimemailnotif(){
 	if(isset($_POST['emailnotif'])){
 		if($_POST['emailnotif'] != ""){
 			$en = (int)$_POST['emailnotif'];
-			$en = $en;
 			$attid = $_POST['aid'];
 			$sql = "UPDATE register SET email_confirm = '$en' WHERE id = '$attid'";
 
 			if(mysql_query($sql)){
+				if(!isset($_POST['notsend'])){
+					switch ($en) {
+						case 1 :
+							emailregistrant($attid, 'email-template-registration', 'email-subject-registration');
+							if(isset($_POST['sendsmsto']))
+								smsregistrant($attid, 'sms-template-registration');
+							break;
+						case 2 :
+							emailregistrant($attid, 'email-template-pembayaran-berhasil', 'email-subject-pembayaran-berhasil');
+							if(isset($_POST['sendsmsto']))
+								smsregistrant($attid, 'sms-template-pembayaran-berhasil');
+							break;
+						case 3 :
+							emailregistrant($attid, 'email-template-pembayaran-gagal', 'email-subject-pembayaran-gagal');
+							if(isset($_POST['sendsmsto']))
+								smsregistrant($attid, 'sms-template-pembayaran-gagal');
+							break;
+						case 4 :
+							emailregistrant($attid, 'email-template-invitation', 'email-subject-invitation');
+							if(isset($_POST['sendsmsto']))
+								smsregistrant($attid, 'sms-template-invitation');
+							break;
+						case 5 :
+							emailregistrant($attid, 'email-template-konfirmasi-hadir', 'email-subject-konfirmasi-hadir');
+							if(isset($_POST['sendsmsto']))
+								smsregistrant($attid, 'sms-template-konfirmasi-hadir');
+							break;
+						default:
+							break;
+					}
+				}
+
 				$msg = msgbox('<strong>Update Berhasil!</strong> status peserta event berhasil diganti.', 'success');
 			} else {
 				$msg = msgbox('<strong>Server Error!</strong> status peserta event gagal diganti.', 'danger');
 			}
 		} else {
 			$msg = msgbox('<strong>System Error!</strong> status peserta event gagal diganti.', 'danger');
+		}
+	}
+}
+
+function emailregistrant($att, $tpl, $sbj){
+	$dtem = getattendeebyid($att);
+
+	$subjemail = getoption($sbj);
+	
+	$tempemail = getoption($tpl);
+	$tempemail = extracttext($tempemail, $dtem);
+	
+	return emailer([$dtem['nama'] => $dtem['email']], $subjemail, $tempemail);
+}
+
+function smsregistrant($att, $tpl){
+	$dtem = getattendeebyid($att);
+	
+	$tempsms = getoption($tpl);
+	
+	$tempsms = extracttext($tempsms, $dtem);
+	
+	return smssender($dtem['hp'], $message);
+}
+
+function getoption($keyoption, $echo = false){
+	$sql = "SELECT value FROM settings WHERE name = '$keyoption'";
+	$qry = mysql_query($sql);
+	$res = mysql_fetch_array($qry);
+
+	if(!$res)
+		return;
+	else {
+		if(!$echo){
+			return $res['value'];
+		} else
+			echo $res['value'];
+	}
+}
+
+function msgsettingpages(){
+	$msg = "";
+	if($_POST != null){
+		$data = $_POST;
+		$err = 0;
+		foreach ($data as $k => $v) {
+			if($v != ""){
+				if(!updateoption($k, $v)){
+					$err = $err++;
+				}
+			}
+		}
+		if($err == 0){
+			$msg = msgbox('<strong>Update Berhasil!</strong> pengaturan telah tersimpan.', 'success');
+		} else {
+			$msg = msgbox('<strong>Update Berhasil!</strong> sebagian pengaturan tidak tersimpan.', 'warning');
+		}
+	}
+	return $msg;
+}
+
+function updateoption($keyoption, $value){
+	$sql = "SELECT value FROM settings WHERE name = '$keyoption'";
+	$qry = mysql_query($sql);
+	$res = mysql_fetch_array($qry);
+
+	if(!$res){
+		$sqli = "INSERT INTO settings SET name = '$keyoption', value = '$value', autoload = '1'";
+		if(mysql_query($sqli)){
+			return true;
+		} else {
+			return;
+		}
+	} else {
+		$sqlu = "UPDATE settings SET value = '$value' WHERE name = '$keyoption'";
+		if(mysql_query($sqlu)){
+			return true;
+		} else {
+			return;
 		}
 	}
 }

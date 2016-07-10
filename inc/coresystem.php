@@ -91,4 +91,34 @@ function creatpdf(){
 	}
 }
 
+function smssender($telepon, $message){
+	$userkey = "9kpaeh";
+	$passkey = "icha200677";
+
+	$url = "https://reguler.zenziva.net/apps/smsapi.php";
+	$dt = "userkey=$userkey&passkey=$passkey&nohp=$telepon&pesan=".urlencode($message);
+	$curlHandle = curl_init();
+	curl_setopt($curlHandle, CURLOPT_URL, $url .'?'.$dt);
+	curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+	curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+	curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+	curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 0);
+	$results = curl_exec($curlHandle);
+	curl_close($curlHandle);
+
+	return $results;
+}
+
+function extracttext($texts, $data = null){
+	$regex = "/\[(.*?)\]/";
+	preg_match_all($regex, $texts, $matches);
+
+	for($i = 0; $i < count($matches[1]); $i++){
+		$match = $matches[1][$i];
+		if(isset($data[$match]))
+			$texts = str_replace($matches[0][$i], $data[$match], $texts);
+	}
+	return $texts;
+}
 ?>

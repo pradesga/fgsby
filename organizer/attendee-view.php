@@ -153,10 +153,36 @@
 							</div>
 
 							<?php } ?>
+							<div class="form-group">
+								<label><input type="checkbox" name="notsend"> Tandai saja</label>
+							</div>
+							<div class="form-group">
+								<label><input type="checkbox" name="sendsmsto"> Kirim SMS</label>
+							</div>
 						</form>
 					</div>
 				</div>
 
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h2 class="panel-title">Undangan</h2>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal" method="post">
+							<div class="form-group">
+								<label for="urlundangan" class="col-sm-2 control-label">Kota</label>
+								<div class="col-sm-10">
+									<p class="form-control-static"><?php echo $atten['urlundangan']; ?></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-info">Generate Undangan</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
 
 <?php include('footer.php'); ?>
