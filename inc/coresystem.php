@@ -14,18 +14,6 @@ mysql_select_db($dbName) or die(mysql_error());
 
 require 'vendor/autoload.php';
 
-function sendemail($from, $to, $subject, $body){
-	$mgclient = new \Http\Adapter\Guzzle6\Client();
-	$mailgun = new Mailgun("key-223e5dfea0fa99dddc1160bf99fe9b6a", $mgclient);
-
-	$mailgun->sendMessage("sandboxa3639126f70745549a6e880d41fc276c.mailgun.org", 
-		array(	'from'    => $from,
-				'to'      => $to, 
-				'subject' => $subject, 
-				'text'    => $body));
-	return true;
-}
-
 function emailer($mailto, $subject, $msg, $from = array('FemaleGeek Surabaya', 'fgsby@phpindonesia.or.id'), $bcc = null, $htmlview = false, $attach = null){
 	require 'vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 	$mail = new PHPMailer;
@@ -76,18 +64,18 @@ function emailer($mailto, $subject, $msg, $from = array('FemaleGeek Surabaya', '
 	}
 }
 
-function creatpdf(){
-	try {
-		ob_start();
-		include '/../ticket.php';
-		$content = ob_get_clean();
-		$html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', 0);
-		$html2pdf->pdf->SetDisplayMode('fullpage');
-		$html2pdf->writeHTML($content);
-		$html2pdf->Output('ticket.pdf');
-	} catch (Html2PdfException $e) {
-		$formatter = new ExceptionFormatter($e);
-		echo $formatter->getHtmlMessage();
+function createpdf($texthtml, $filename, $read = false){
+	use Dompdf\Dompdf;
+
+	$dompdf = new Dompdf();
+	$dompdf->set_paper('A5', 'landscape');
+	$dompdf->loadHtml($texthtml);
+	$dompdf->render();
+
+	if($read){
+		$dompdf->stream('ticket', array('Attachment' => 0));
+	} else {
+		file_put_contents('../tickets/' . $filename, $dompdf->output());
 	}
 }
 
