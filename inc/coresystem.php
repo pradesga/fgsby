@@ -13,6 +13,7 @@ mysql_connect($dbHost, $dbUser, $dbPass);
 mysql_select_db($dbName) or die(mysql_error());
 
 require 'vendor/autoload.php';
+use Dompdf\Dompdf;
 
 function emailer($mailto, $subject, $msg, $from = array('FemaleGeek Surabaya', 'fgsby@phpindonesia.or.id'), $bcc = null, $htmlview = false, $attach = null){
 	require 'vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
@@ -65,7 +66,7 @@ function emailer($mailto, $subject, $msg, $from = array('FemaleGeek Surabaya', '
 }
 
 function createpdf($texthtml, $filename, $read = false){
-	use Dompdf\Dompdf;
+	
 
 	$dompdf = new Dompdf();
 	$dompdf->set_paper('A5', 'landscape');

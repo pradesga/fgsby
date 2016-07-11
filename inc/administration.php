@@ -594,3 +594,21 @@ function updateoption($keyoption, $value){
 		}
 	}
 }
+
+function createticket($att){
+	$datpdf = getattendeebyid($att);
+	$pathf = '../tickets/' . $datpdf['urlundangan'];
+	if((int)$datpdf['konfirm'] >= 1 ){
+		if(!file_exists($pathf)){
+			$tempdf = file_get_contents('template-pdf.tpl');
+			$datpdf = getattendeebyid($att);
+			$tempdf = extracttext($tempdf, $datpdf);
+
+			return createpdf($tempdf, $pathf);
+		} else {
+			return unlink($pathf);
+		}
+	} else {
+		return unlink($pathf);
+	}
+}

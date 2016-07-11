@@ -55,4 +55,6 @@ function emailregistrasi($att){
 	return emailer([$dtem['nama'] => $dtem['email']], $subjemail, $tempemail);
 }
 
-var_dump(emailregistrasi(1));
+// var_dump(emailregistrasi(1));
+
+var_dump(1>=1);
