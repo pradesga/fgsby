@@ -1,6 +1,6 @@
 <?php
-header('Content-Type: image/png');
-if($_GET != NULL){
+if(isset($_GET['data'])){
+	header('Content-Type: image/png');
 	$data = $_GET['data'];
 	if(isset($_GET['size'])){
 		echo get_image($data, $_GET['size']);

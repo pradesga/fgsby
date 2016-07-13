@@ -5,6 +5,36 @@
 				<?=msgsettingpages(); ?>
 				<form class="form-horizontal" method="post">
 					<div class="form-group">
+						<label for="mailer-username" class="col-sm-4 control-label">Mailer Username</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="mailer-username" id="mailer-username" value="<?=getoption('mailer-username'); ?>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="mailer-password" class="col-sm-4 control-label">Mailer Password</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" name="mailer-password" id="mailer-password" value="<?=getoption('mailer-password'); ?>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="zenziva-userkey" class="col-sm-4 control-label">Zenziva Userkey</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="zenziva-userkey" id="zenziva-userkey" value="<?=getoption('zenziva-userkey'); ?>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="zenziva-passkey" class="col-sm-4 control-label">Zenziva Passkey</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="zenziva-passkey" id="zenziva-passkey" value="<?=getoption('zenziva-passkey'); ?>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="nama-from" class="col-sm-4 control-label">Administration Nama</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="nama-from" id="email-from" value="<?=getoption('nama-from'); ?>">
+						</div>
+					</div>
+					<div class="form-group">
 						<label for="email-from" class="col-sm-4 control-label">Administration Email</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" name="email-from" id="email-from" value="<?=getoption('email-from'); ?>">
@@ -14,6 +44,14 @@
 						<label for="email-subject-registration" class="col-sm-4 control-label">Subject Registration</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" name="email-subject-registration" id="email-subject-registration" value="<?=getoption('email-subject-registration'); ?>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="email-template-registration" class="col-sm-4 control-label">Shortcode Tersedia</label>
+						<div class="col-sm-8">
+							<p><?php $attt = getattendeebyid(); foreach ($attt as $atk => $atv) {
+								echo '<span class="btn btn-default">['.$atk.']</span>';
+							} ?></p>
 						</div>
 					</div>
 					<div class="form-group">

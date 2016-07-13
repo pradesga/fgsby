@@ -1,5 +1,6 @@
 <?php
 require("coresystem.php");
+require('../qrcode.php');
 
 function islogin(){
 	if(isset($_SESSION['islogin'])){
@@ -153,10 +154,13 @@ function getattendeebyid($atid = ""){
 	if(isset($_GET['id']))
 		$attid = $_GET['id'];
 
-	if($atid != "")
+	if($atid != ""){
 		$attid = $atid;
+		$sql = "SELECT * FROM register WHERE id = '$attid'";
+	} else {
+		$sql = "SELECT * FROM register";
+	}
 
-	$sql = "SELECT * FROM register WHERE id = '$attid'";
 	$qry = mysql_query($sql);
 	while ($row = mysql_fetch_array($qry)) {
 		foreach ($row as $k => $v) {
@@ -164,7 +168,25 @@ function getattendeebyid($atid = ""){
 				$msg[$k] = $v;
 		}
 	}
-	$msg = $msg + array('urlundangan' => tglku($msg['tgl'], 'dmYHis') . '.pdf');
+
+	$ur = '';
+	
+	if(!empty($msg['tglbayar']) && $msg['tglbayar'] != '0000-00-00 00:00:00'){
+		$ur .= tglku($msg['tgl'], 'dmYHis') . tglku($msg['tglbayar'], 'dmYHis') . '.pdf';
+	}
+
+	$qrimg = get_image(urlencode(base64_encode($msg['kode'])), $size = 256);
+	$qrimg = 'data:image/png;base64,' . base64_encode($qrimg);
+
+	$hashkonf = base64_encode(base64_encode(base64_encode($msg['kode'])));
+
+	$mysit = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
+
+	$msg['undangan'] = $ur;
+	$msg['urlundangan'] = $mysit.'/tickets/'.$ur;
+	$msg['qrimage'] = $qrimg;
+	$msg['linkkonfirmasi'] = $mysit.'/regkey='.urlencode($hashkonf).'&do=confirm';
+	$msg['linkunkonfirmasi'] = $mysit.'/regkey='.urlencode($hashkonf).'&do=unconfirm';
 	return $msg;
 }
 
@@ -265,49 +287,12 @@ function newattendee(){
 
 		$redi = implode(', ', array_map(function ($v, $k) { return sprintf("%s='%s'", $k, $v); }, $newdata, array_keys($newdata)));
 		$sql = "INSERT INTO register SET $redi";
-		if( mysql_query($sql) ){
-			$emailfrom = 'FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>';
-			$emailto = $newdata['nama'] . ' <'.$newdata['email'].'>';
-			$subject = 'Konfirmasi Registrasi Event';
 
-			$headers   = array();
-			$headers[] = "MIME-Version: 1.0";
-			$headers[] = "Content-type: text/plain; charset=iso-8859-1";
-			$headers[] = "From: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
-			$headers[] = "Reply-To: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
-			$headers[] = "Subject: {$subject}";
-			$headers[] = "X-Mailer: PHP/".phpversion();
-			
-			$msgregis  = 'Hello ' . $newdata['nama'] . ',' . "\n";
-			$msgregis .= 'Pendaftaran anda berhasil, dengan data sebagai berikut' . "\n";
-			$msgregis .= 'Nama: ' . $newdata['nama'] . "\n";
-			$msgregis .= 'Email: ' . $newdata['email'] . "\n";
-			$msgregis .= 'Alamat: ' . $newdata['alamat'] . "\n";
-			$msgregis .= 'Kota: ' . $newdata['kota'] . "\n";
-			$msgregis .= 'Nomor Handphone: ' . $newdata['hp'] . "\n";
-			$msgregis .= 'Kode Registrasi: ' . $newdata['kode'] . "\n";
-			$msgregis .= '===================================' . "\n\n";
-			$msgregis .= 'Silahkan melakukan pembayaran melalui nomor rekening sebagai berikut' . "\n";
-			$msgregis .= 'Biaya Registrasi : Rp 50.000 (Lima Puluh Ribu Rupiah)' . "\n";
-			$msgregis .= 'Nomor Rekening: BCA 325 1222 400 an. Kiki Indah Novitasari' . "\n\n";
-			$msgregis .= 'Catatan: Sertakan kode registrasi di keterangan transfer.' . "\n\n";
-			$msgregis .= '===================================' . "\n\n";
-			$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau Line sebagai berikut' . "\n";
-			$msgregis .= 'Atau alamat email sebagai berikut' . "\n";
-			$msgregis .= 'Illa 085810187939 / line @illarhs' . "\n";
-			$msgregis .= 'Kiki 081289846568 / line @ivonesarii' . "\n\n";
-			$msgregis .= '===================================' . "\n";
-			$msgregis .= 'Panitia Event FemaleGeek Surabaya' . "\n";
-
-			// $pmailfrom = array();
-			$pmailto = array($newdata['nama'], $newdata['email']);
-			
-			// if( mail($emailto, $subject, $msgregis, implode("\r\n", $headers) ) ){
-			if(emailer($pmailto, $subject, $msgregis)){
-				$mmssgg = msgbox('Data peserta baru telah tersimpan!', 'success'); 
-			} else {
-				$mmssgg = msgbox('Data tersimpan!, tetapi email gagal terkirim, lakukan pengiriman email manual!', 'info'); 
-			}
+		if(mysql_query($sql)){
+			$lid = mysql_insert_id();
+			emailregistrant($lid, 'email-template-registration', 'email-subject-registration');
+			smsregistrant($lid, 'sms-template-registration');
+			$mmssgg = msgbox('Data peserta baru telah tersimpan!', 'success');
 		} else {
 			$mmssgg = msgbox('Data tidak tersimpan, koreksi dan ulangi beberapa saat lagi!', 'danger'); 
 		}
@@ -537,21 +522,6 @@ function smsregistrant($att, $tpl){
 	return smssender($dtem['hp'], $message);
 }
 
-function getoption($keyoption, $echo = false){
-	$sql = "SELECT value FROM settings WHERE name = '$keyoption'";
-	$qry = mysql_query($sql);
-	$res = mysql_fetch_array($qry);
-
-	if(!$res)
-		return;
-	else {
-		if(!$echo){
-			return $res['value'];
-		} else
-			echo $res['value'];
-	}
-}
-
 function msgsettingpages(){
 	$msg = "";
 	if($_POST != null){
@@ -573,34 +543,26 @@ function msgsettingpages(){
 	return $msg;
 }
 
-function updateoption($keyoption, $value){
-	$sql = "SELECT value FROM settings WHERE name = '$keyoption'";
-	$qry = mysql_query($sql);
-	$res = mysql_fetch_array($qry);
-
-	if(!$res){
-		$sqli = "INSERT INTO settings SET name = '$keyoption', value = '$value', autoload = '1'";
-		if(mysql_query($sqli)){
-			return true;
+function generateticket(){
+	$msg = "";
+	if($_POST != null){
+		$att = (isset($_POST['aid'])) ? (int)$_POST['aid'] : 0;
+		if($att != 0){
+			createticket($att);
+			$msg = msgbox('<strong>Generate Tiket Berhasil!</strong> file pdf tiket tersimpan.', 'success');
 		} else {
-			return;
-		}
-	} else {
-		$sqlu = "UPDATE settings SET value = '$value' WHERE name = '$keyoption'";
-		if(mysql_query($sqlu)){
-			return true;
-		} else {
-			return;
+			$msg = msgbox('<strong>Generate Tiket Gagal!</strong> file pdf tiket tidak tersimpan.', 'danger');
 		}
 	}
+	echo $msg;
 }
 
 function createticket($att){
 	$datpdf = getattendeebyid($att);
-	$pathf = '../tickets/' . $datpdf['urlundangan'];
+	$pathf = $datpdf['undangan'];
 	if((int)$datpdf['konfirm'] >= 1 ){
 		if(!file_exists($pathf)){
-			$tempdf = file_get_contents('template-pdf.tpl');
+			$tempdf = file_get_contents('../inc/ticket/template.html');
 			$datpdf = getattendeebyid($att);
 			$tempdf = extracttext($tempdf, $datpdf);
 

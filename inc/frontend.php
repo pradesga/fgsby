@@ -81,51 +81,64 @@ function emailregistrasi(){
 	$bkota = $_POST['kota'];
 
 	$gs = "INSERT INTO register SET nama='$bnama',alamat='$balamat',tgl='$tgl',hp='$bnohp',email='$bemail',kota='$bkota',kode='$cid',konfirm='0'";
-	$str = mysql_query($gs) or die ("Gagal query " . mysql_error() );
 
-	if($str == TRUE){
-		$emailfrom = 'FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>';
-		$emailto = $bnama . ' <'.$bemail.'>';
-		$subject = 'Konfirmasi Registrasi Event';
-
-		$headers   = array();
-		$headers[] = "MIME-Version: 1.0";
-		$headers[] = "Content-type: text/plain; charset=iso-8859-1";
-		$headers[] = "From: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
-		$headers[] = "Reply-To: FemaleGeek Surabaya <noreply@femalegeek-sby.dev.php.or.id>";
-		$headers[] = "Subject: {$subject}";
-		$headers[] = "X-Mailer: PHP/".phpversion();
-		
-		$msgregis  = 'Pendaftaran anda berhasil, dengan data sebagai berikut' . "\n";
-		$msgregis .= 'Nama: ' . $bnama . "\n";
-		$msgregis .= 'Email: ' . $bemail . "\n";
-		$msgregis .= 'Alamat: ' . $balamat . "\n";
-		$msgregis .= 'Kota: ' . $bkota . "\n";
-		$msgregis .= 'Nomor Handphone: ' . $bnohp . "\n";
-		$msgregis .= 'Kode Registrasi: ' . $cid . "\n";
-		$msgregis .= '===================================' . "\n\n";
-		$msgregis .= 'Silahkan melakukan pembayaran melalui nomor rekening sebagai berikut' . "\n";
-		$msgregis .= 'Biaya Registrasi : Rp 50.000 (Lima Puluh Ribu Rupiah)' . "\n";
-		$msgregis .= 'Nomor Rekening: BCA 325 1222 400 an. Kiki Indah Novitasari' . "\n\n";
-		$msgregis .= 'Catatan: Sertakan kode registrasi di keterangan transfer.' . "\n\n";
-		$msgregis .= '===================================' . "\n\n";
-		$msgregis .= 'Setelah melakukan pembayaran silahkan melakukan konfirmasi dengan menghubungi nomor telepon atau Line sebagai berikut' . "\n";
-		$msgregis .= 'Atau alamat email sebagai berikut' . "\n";
-		$msgregis .= 'Illa 085810187939 / line @illarhs' . "\n";
-		$msgregis .= 'Kiki 081289846568 / line @ivonesarii' . "\n\n";
-		$msgregis .= '===================================' . "\n";
-		$msgregis .= 'Panitia Event FemaleGeek Surabaya' . "\n";
-
-		// $pmailfrom = array();
-		$pmailto = array($bnama, $bemail);
-		
-		// if( mail($emailto, $subject, $msgregis, implode("\r\n", $headers) ) ){
-		if(emailer($pmailto, $subject, $msgregis)){
-			return true;
-		} else
-			return;
-	} else
+	if(mysql_query($gs)){
+		$lid = mysql_insert_id();
+		emailregistrant($lid, 'email-template-registration', 'email-subject-registration');
+		smsregistrant($lid, 'sms-template-registration');
+		return true;
+	} else {
 		return;
+	}
+}
+
+function getattendeebyid($atid = ""){
+	$msg = array();
+	if(isset($_GET['id']))
+		$attid = $_GET['id'];
+
+	if($atid != "")
+		$attid = $atid;
+
+	$sql = "SELECT * FROM register WHERE id = '$attid'";
+	$qry = mysql_query($sql);
+	while ($row = mysql_fetch_array($qry)) {
+		foreach ($row as $k => $v) {
+			if(!is_int($k))
+				$msg[$k] = $v;
+		}
+	}
+
+	$ur = '';
+	
+	if(!empty($msg['tglbayar']) && $msg['tglbayar'] != '0000-00-00 00:00:00'){
+		$ur  = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/tickets/';
+		$ur .= tglku($msg['tgl'], 'dmYHis') . tglku($msg['tglbayar'], 'dmYHis') . '.pdf';
+	}
+	
+	$msg = $msg + array('urlundangan' => $ur);
+	return $msg;
+}
+
+function emailregistrant($att, $tpl, $sbj){
+	$dtem = getattendeebyid($att);
+
+	$subjemail = getoption($sbj);
+	
+	$tempemail = getoption($tpl);
+	$tempemail = extracttext($tempemail, $dtem);
+	
+	return emailer([$dtem['nama'] => $dtem['email']], $subjemail, $tempemail);
+}
+
+function smsregistrant($att, $tpl){
+	$dtem = getattendeebyid($att);
+	
+	$tempsms = getoption($tpl);
+	
+	$tempsms = extracttext($tempsms, $dtem);
+	
+	return smssender($dtem['hp'], $message);
 }
 
 function tglku($datestr, $format){

@@ -3,7 +3,7 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">Attendee View Data</h1>
 
-				<?php kirimemailnotif(); gantistatus(); $atten = getattendeebyid(); ?>
+				<?php generateticket(); kirimemailnotif(); gantistatus(); $atten = getattendeebyid(); ?>
 
 				<div class="panel panel-primary">
 					<div class="panel-heading">
@@ -169,10 +169,11 @@
 					</div>
 					<div class="panel-body">
 						<form class="form-horizontal" method="post">
+							<input type="hidden" name="aid" id="aid" value="<?php echo $atten['id']; ?>">
 							<div class="form-group">
-								<label for="urlundangan" class="col-sm-2 control-label">Kota</label>
+								<label for="urlundangan" class="col-sm-2 control-label">URL Undangan</label>
 								<div class="col-sm-10">
-									<p class="form-control-static"><?php echo $atten['urlundangan']; ?></p>
+									<p class="form-control-static"><?php echo $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/tickets/'.$atten['urlundangan']; ?></p>
 								</div>
 							</div>
 							<div class="form-group">
