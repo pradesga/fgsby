@@ -49,6 +49,7 @@ switch (str_replace('/', '', $_SERVER['PHP_SELF'])) {
 		$datarr = array();
 		$datearr = array();
 		$gs = "(SELECT id, nama, tgl, kota, kode, 0 AS konfirm FROM register) UNION (SELECT id, nama, tglbayar, kota, kode, 1 AS konfirm  FROM register WHERE tglbayar != '') ORDER BY tgl DESC";
+
 		$fs = mysql_query($gs);
 		
 		while($row = mysql_fetch_array($fs)){

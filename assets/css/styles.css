@@ -362,7 +362,8 @@ p.slogan {
 }
 .timeline .timeline-entry.left-aligned .timeline-time {
   left: auto;
-  right: -100px;
+  right: -110px;
+  top: -10px;
   text-align: left;
 }
 .timeline .timeline-entry.left-aligned .timeline-icon {
@@ -397,7 +398,8 @@ p.slogan {
 }
 .timeline .timeline-entry .timeline-time {
   position: absolute;
-  left: -100px;
+  left: -110px;
+  top: -10px;
   text-align: right;
   padding: 10px;
   -webkit-box-sizing: border-box;

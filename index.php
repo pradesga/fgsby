@@ -40,7 +40,7 @@
             <div class="container">
               <h2>Events</h2>
               <p>How to Become a Developer - Team Female Geek Surabaya at Dilo Surabaya</p>
-              <button class="btn btn-transparent btn-lg scroll-register" type="button">Register</button>
+           
               <a class="btn btn-transparent btn-lg" href="timeline.php" role="button">Timeline</a>
             </div>
           </div><!-- ./hero -->
@@ -162,41 +162,8 @@
         </div>
       </div><!-- /.row -->
     </div>
-  </section>
-
-  <section id="register">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 center-block text-center">
-          <h1>Event Registration</h1>
-          <p class="slogan">Please fill all form with valid data.</p>
-          <form id="register-form" action="" method="post" role="form">
-            <div class="row">
-              <div class="col-md-8 col-md-offset-2">
-                <div id="messages"></div>
-                <div class="form-group">
-                  <input type="text" name="nama" class="form-control" placeholder="Full name" required>
-                </div>
-                <div class="form-group">
-                  <input type="email" name="email" class="form-control" placeholder="Email" required>
-                </div>
-                <div class="form-group">
-                  <input type="text" name="nohp" class="form-control" placeholder="Phone" required>
-                </div>
-                <div class="form-group">
-                  <input type="text" name="alamat" class="form-control" placeholder="Address" required>
-                </div>
-                <div class="form-group">
-                  <input type="text" name="kota" class="form-control" placeholder="City" required>
-                </div>
-                <button class="btn btn-success btn-lg pull-right" type="submit">Register</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div><!-- /.row -->
-    </div>
-  </section>
+  </section
+    
 
   <section id="maps">
     <div id="google-map"></div>

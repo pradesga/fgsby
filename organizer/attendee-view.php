@@ -173,7 +173,7 @@
 							<div class="form-group">
 								<label for="urlundangan" class="col-sm-2 control-label">URL Undangan</label>
 								<div class="col-sm-10">
-									<p class="form-control-static"><?php echo $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/tickets/'.$atten['urlundangan']; ?></p>
+									<p class="form-control-static"><?= $atten['urlundangan']; ?></p>
 								</div>
 							</div>
 							<div class="form-group">

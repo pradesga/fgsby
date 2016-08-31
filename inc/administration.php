@@ -151,14 +151,17 @@ function getattendee(){
 
 function getattendeebyid($atid = ""){
 	$msg = array();
-	if(isset($_GET['id']))
-		$attid = $_GET['id'];
 
 	if($atid != ""){
 		$attid = $atid;
 		$sql = "SELECT * FROM register WHERE id = '$attid'";
 	} else {
-		$sql = "SELECT * FROM register";
+		if(isset($_GET['id'])){
+			$attid = $_GET['id'];
+			$sql = "SELECT * FROM register WHERE id = '$attid'";
+		} else {
+			$sql = "SELECT * FROM register";
+		}
 	}
 
 	$qry = mysql_query($sql);
@@ -183,7 +186,7 @@ function getattendeebyid($atid = ""){
 	$mysit = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
 
 	$msg['undangan'] = $ur;
-	$msg['urlundangan'] = $mysit.'/tickets/'.$ur;
+	$msg['urlundangan'] = (!empty($ur)) ? $mysit.'/tickets/'.$ur : 'Waiting';
 	$msg['qrimage'] = $qrimg;
 	$msg['linkkonfirmasi'] = $mysit.'/regkey='.urlencode($hashkonf).'&do=confirm';
 	$msg['linkunkonfirmasi'] = $mysit.'/regkey='.urlencode($hashkonf).'&do=unconfirm';
