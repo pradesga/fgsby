@@ -567,6 +567,11 @@ function createticket($att){
 		if(!file_exists($pathf)){
 			$tempdf = file_get_contents('../inc/ticket/template.html');
 			$datpdf = getattendeebyid($att);
+			$datpdf['eventlogo'] = getoption('eventlogo');
+			$datpdf['eventname'] = getoption('eventname');
+			$datpdf['eventspeakers'] = getoption('eventspeakers');
+			$datpdf['eventdate'] = getoption('eventdate');
+			$datpdf['eventvenue'] = getoption('eventvenue');
 			$tempdf = extracttext($tempdf, $datpdf);
 
 			return createpdf($tempdf, $pathf);

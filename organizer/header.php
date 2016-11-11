@@ -1,11 +1,17 @@
-<?php require("../inc/administration.php"); if(!islogin()) header('Location: login.php'); ?><!DOCTYPE html>
+<?php 
+require("../inc/administration.php"); 
+if(!islogin()) header('Location: login.php');
+
+$sidemenus = array('Dashboard' => 'dashboard', 'Check In' => 'checkin', 'Attendee' => 'attendee', 'Settings' => 'setting', 'Users' => 'user');
+
+ ?><!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>FemaleGeek Surabaya | Administration Pages</title>
+    <title><?=getoption('eventname', true); ?> | Administration Pages</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
@@ -29,7 +35,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/organizer">FemaleGeek Surabaya | Administration Pages</a>
+				<a class="navbar-brand" href="/organizer"><?=getoption('eventname', true); ?> | Administration Pages</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -48,9 +54,6 @@
 					</li>
 					<li><a href="/" target="_blank">view frontend</a></li>
 				</ul>
-				<form class="navbar-form navbar-right">
-					<input type="text" class="form-control" placeholder="Search...">
-				</form>
 			</div>
 		</div>
 	</nav>
@@ -59,10 +62,8 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li<?php activemenu('/organizer/dashboard.php'); ?>><a href="/organizer">Dashboard</a></li>
-					<li<?php activemenu('/organizer/checkin.php'); ?>><a href="/organizer/checkin.php">Check In</a></li>
-					<li<?php activemenu('/organizer/attendee.php'); ?>><a href="/organizer/attendee.php">Attendee</a></li>
-					<li<?php activemenu('/organizer/setting.php'); ?>><a href="/organizer/setting.php">Settings</a></li>
-					<li<?php activemenu('/organizer/user.php'); ?>><a href="/organizer/user.php">Users</a></li>
+					<?php foreach ($sidemenus as $smk => $smv) { ?>
+						<li<?php activemenu('/organizer/'.$smv.'.php'); ?>><a href="/organizer<?php echo ($smv == 'dashboard') ? '' : '/'.$smv.'.php'; ?>"><?=$smk; ?></a></li>
+					<?php } ?>
 				</ul>
 			</div>

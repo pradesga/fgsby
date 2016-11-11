@@ -4,9 +4,9 @@ session_name('FGSBYSID');
 session_start();
 
 $dbHost = "localhost";
-$dbUser = "fgsby_root";
-$dbPass = "200677";
-$dbName = "fgsby_fg";
+$dbUser = "pradesga_pdc2016";
+$dbPass = "1T1PcGnaO)wV";
+$dbName = "pradesga_podevconf";
 mysql_connect($dbHost, $dbUser, $dbPass);
 mysql_select_db($dbName) or die(mysql_error());
 
@@ -101,8 +101,6 @@ function emailer($mailto, $subject, $msg, $from = array('FemaleGeek Surabaya', '
 }
 
 function createpdf($texthtml, $filename, $read = false){
-	
-
 	$dompdf = new Dompdf();
 	$dompdf->set_paper('A5', 'landscape');
 	$dompdf->loadHtml($texthtml);
