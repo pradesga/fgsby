@@ -63,7 +63,6 @@
 					<li<?php activemenu('/organizer/checkin.php'); ?>><a href="/organizer/checkin.php">Check In</a></li>
 					<li<?php activemenu('/organizer/attendee.php'); ?>><a href="/organizer/attendee.php">Attendee</a></li>
 					<li<?php activemenu('/organizer/setting.php'); ?>><a href="/organizer/setting.php">Settings</a></li>
-					<li<?php activemenu('/organizer/form-management.php'); ?>><a href="/organizer/form-management.php">Form Management</a></li>
 					<li<?php activemenu('/organizer/user.php'); ?>><a href="/organizer/user.php">Users</a></li>
 				</ul>
 			</div>
