@@ -251,9 +251,13 @@ function updateattendee(){
 	$msg = "";
 	if(isset($_POST['attid'])){
 		$attid = $_POST['attid'];
+		$instansi = is_array($_POST['instansi'])?implode(",",$_POST['instansi']):$_POST['instansi'];
 		$newdata = array(
 			'nama' => $_POST['nama'],
 			'email' => $_POST['email'],
+			'gender' => $_POST['gender'],
+			'instansi' => $instansi,
+			'nama_instansi' => $_POST['nama_instansi'],
 			'alamat' => $_POST['alamat'],
 			'kota' => $_POST['kota'],
 			'hp' => $_POST['nohp'],
@@ -276,9 +280,13 @@ function newattendee(){
 		$cid = generatekode();
 		$cid = cekexistskode($cid);
 		$tgl = date("Y-m-d H:i:s");
-
+		$instansi = is_array($_POST['instansi'])?implode(",",$_POST['instansi']):$_POST['instansi'];
 		$newdata = array(
 			'nama' => $_POST['nama'],
+			'email' => $_POST['email'],
+			'gender' => $_POST['gender'],
+			'instansi' => $instansi,
+			'nama_instansi' => $_POST['nama_instansi'],
 			'alamat' => $_POST['alamat'],
 			'hp' => $_POST['nohp'],
 			'email' => $_POST['email'],

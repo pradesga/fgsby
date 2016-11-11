@@ -24,6 +24,32 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label  class="col-sm-2 control-label">Gender</label>
+								<div class="col-sm-10">
+									<input type="radio" <?php echo ($atten['gender'] == "Laki-laki") ? 'checked':''; ?> value="Laki-laki" name="gender" required> Laki-laki
+									<input type="radio" <?php echo ($atten['gender'] == "Perempuan") ? 'checked':''; ?> value="Perempuan" name="gender" required> Perempuan
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-2 control-label">Instansi</label>
+								<div class="col-sm-10">
+									<?php
+									$instansi = explode(",", $atten['instansi']);
+									$instansi = is_array($instansi) ? $instansi : array();
+									?>
+									<input type="checkbox" <?php echo in_array("Perusahaan", $instansi)?'checked':'';?> value="Perusahaan" name="instansi[]" > Perusahaan
+									<input type="checkbox"  <?php echo in_array("Sekolah", $instansi)?'checked':'';?>  value="Sekolah" name="instansi[]" > Sekolah
+									<input type="checkbox"  <?php echo in_array("Kampus", $instansi)?'checked':'';?>  value="Kampus" name="instansi[]" > Kampus
+									<input type="checkbox"  <?php echo in_array("Personal", $instansi)?'checked':'';?>  value="Personal" name="instansi[]" > Personal
+								</div>
+							</div>
+							<div class="form-group">
+								<label  class="col-sm-2 control-label">Nama Instansi</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" value="<?php echo $atten['nama_instansi']; ?>" name="nama_instansi" placeholder="Nama Instansi" >
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="alamat" class="col-sm-2 control-label">Alamat</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" value="<?php echo $atten['alamat']; ?>" name="alamat" id="alamat" placeholder="Alamat" required>

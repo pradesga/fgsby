@@ -24,9 +24,27 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label for="Nama" class="col-sm-2 control-label">Gender</label>
+								<div class="col-sm-10">
+									<p class="form-control-static"><?php echo $atten['gender']; ?></p>
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="email" class="col-sm-2 control-label">Email</label>
 								<div class="col-sm-10">
 									<p class="form-control-static"><?php echo $atten['email']; ?></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="email" class="col-sm-2 control-label">Instansi</label>
+								<div class="col-sm-10">
+									<p class="form-control-static"><?php echo $atten['instansi']; ?></p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="email" class="col-sm-2 control-label">Nama Instansi</label>
+								<div class="col-sm-10">
+									<p class="form-control-static"><?php echo $atten['nama_instansi']; ?></p>
 								</div>
 							</div>
 							<div class="form-group">
