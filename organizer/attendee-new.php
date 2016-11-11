@@ -19,6 +19,28 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label  class="col-sm-2 control-label">Gender</label>
+						<div class="col-sm-10">
+							<input type="radio"  value="Laki-laki" name="gender" required> Laki-laki
+							<input type="radio"  value="Perempuan" name="gender" required> Perempuan
+						</div>
+					</div>
+					<div class="form-group">
+						<label  class="col-sm-2 control-label">Instansi</label>
+						<div class="col-sm-10">
+							<input type="checkbox" value="Perusahaan" name="instansi[]" > Perusahaan
+							<input type="checkbox"  value="Sekolah" name="instansi[]" > Sekolah
+							<input type="checkbox"  value="Kampus" name="instansi[]" > Kampus
+							<input type="checkbox"  value="Personal" name="instansi[]" > Personal
+						</div>
+					</div>
+					<div class="form-group">
+						<label  class="col-sm-2 control-label">Nama Instansi</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="nama_instansi" placeholder="Nama Instansi" >
+						</div>
+					</div>
+					<div class="form-group">
 						<label for="alamat" class="col-sm-2 control-label">Alamat</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat" required>
