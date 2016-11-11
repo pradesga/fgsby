@@ -577,3 +577,67 @@ function createticket($att){
 		return unlink($pathf);
 	}
 }
+
+/*Form Management*/
+
+function funcstatus($sts){
+	$data = array(
+				'0' => 'Non-Active',
+				'1' => 'Active'
+			);
+	return isset($data[$sts]) ? $data[$sts] : 'Undefined';
+}
+function newformlocation(){
+	$mmssgg = "";
+	if($_POST != null){ 
+		$cid = generatekode();
+		$cid = cekexistskode($cid);
+		$tgl = date("Y-m-d H:i:s");
+
+		$newdata = array(
+			'locname' 	=> $_POST['locname'],
+			'locdesc' 	=> $_POST['locdesc'],
+			'status' => $_POST['status']
+		);
+		$chcktable = mysql_query("SHOW TABLES LIKE '{$newdata['maintable']}'");
+		$tableExists = ($chcktable)?mysql_num_rows($chcktable) > 0:false;
+		$exfield = explode(",",$newdata['maintablefields']);
+		$errCols = array();
+		foreach ($exfield as $cols) {
+			if(!checkColsTable($newdata['maintable'] , $cols)){
+				$errCols[] = $cols;
+			}
+		}
+		if(!$tableExists){
+			$mmssgg = msgbox('Tabel utama tidak ada, koreksi dan ulangi lagi!', 'danger'); 
+		}elseif(!emptyz){
+
+		}else{
+			$redi = implode(', ', array_map(function ($v, $k) { return sprintf("%s='%s'", $k, $v); }, $newdata, array_keys($newdata)));
+			$sql = "INSERT INTO formloc SET $redi";
+
+			if(mysql_query($sql)){
+				$lid = mysql_insert_id();
+				$mmssgg = msgbox('Data baru telah tersimpan!', 'success');
+				unset($_POST);
+			} else {
+				$mmssgg = msgbox('Data tidak tersimpan, koreksi dan ulangi beberapa saat lagi!', 'danger'); 
+			}
+		}
+	}
+	return $mmssgg;
+}
+function getformlocation(){
+	$str = "SELECT idloc, locname, locdesc, status FROM formloc ORDER BY idloc ASC";
+	$qry = mysql_query($str);
+	$datrow = array();
+	while ($rows = mysql_fetch_array($qry)) {
+		$thisrow = array();
+		foreach ($rows as $k => $v) {
+			if(!is_int($k))
+				$thisrow[$k] = $v;
+		}
+		$datrow[] = $thisrow;
+	}
+	return $datrow;
+}

@@ -4,9 +4,9 @@ session_name('FGSBYSID');
 session_start();
 
 $dbHost = "localhost";
-$dbUser = "fgsby_root";
-$dbPass = "200677";
-$dbName = "fgsby_fg";
+$dbUser = "root";
+$dbPass = "";
+$dbName = "pradesga_podevconf";
 mysql_connect($dbHost, $dbUser, $dbPass);
 mysql_select_db($dbName) or die(mysql_error());
 
